@@ -866,7 +866,6 @@ var StudyComponent = /** @class */ (function () {
         var _this = this;
         var dialogRef = this.dialog.open(StudyDialogComponent, {
             width: '75%',
-            // padding: '0',
             // height: '600px',
             data: { id: ID }
         });
