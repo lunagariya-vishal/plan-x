@@ -39,9 +39,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shared/shared.module */ "./src/app/shared/shared.module.ts");
 /* harmony import */ var _components_layout_header_header_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/layout/header/header.component */ "./src/app/components/layout/header/header.component.ts");
 /* harmony import */ var _components_layout_footer_footer_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/layout/footer/footer.component */ "./src/app/components/layout/footer/footer.component.ts");
-/* harmony import */ var _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/study/study.component */ "./src/app/components/study/study.component.ts");
-/* harmony import */ var _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/report/report.component */ "./src/app/components/report/report.component.ts");
-/* harmony import */ var _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/page-not-found/page-not-found.component */ "./src/app/components/page-not-found/page-not-found.component.ts");
+/* harmony import */ var _components_auth_login_login_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/auth/login/login.component */ "./src/app/components/auth/login/login.component.ts");
+/* harmony import */ var _components_auth_forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/auth/forgot-password/forgot-password.component */ "./src/app/components/auth/forgot-password/forgot-password.component.ts");
+/* harmony import */ var _components_auth_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/auth/change-password/change-password.component */ "./src/app/components/auth/change-password/change-password.component.ts");
+/* harmony import */ var _components_study_study_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/study/study.component */ "./src/app/components/study/study.component.ts");
+/* harmony import */ var _components_report_report_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/report/report.component */ "./src/app/components/report/report.component.ts");
+/* harmony import */ var _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/page-not-found/page-not-found.component */ "./src/app/components/page-not-found/page-not-found.component.ts");
+
+
+
 
 
 
@@ -53,10 +59,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [
-    { path: 'page-not-found', component: _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__["PageNotFoundComponent"], data: { title: 'Page not found' } },
-    { path: '', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"], data: { title: 'Study' } },
-    { path: 'study', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"], data: { title: 'Study' } },
-    { path: 'report/:id', component: _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__["ReportComponent"], data: { title: 'Report' } },
+    { path: 'page-not-found', component: _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_11__["PageNotFoundComponent"], data: { title: 'Page not found' } },
+    { path: '', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_9__["StudyComponent"], data: { title: 'Study' } },
+    { path: 'study', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_9__["StudyComponent"], data: { title: 'Study' } },
+    { path: 'report/:id', component: _components_report_report_component__WEBPACK_IMPORTED_MODULE_10__["ReportComponent"], data: { title: 'Report' } },
     { path: '**', redirectTo: '/page-not-found' }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -72,20 +78,26 @@ var AppRoutingModule = /** @class */ (function () {
                 _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"],
                 _components_layout_header_header_component__WEBPACK_IMPORTED_MODULE_4__["HeaderComponent"],
                 _components_layout_footer_footer_component__WEBPACK_IMPORTED_MODULE_5__["FooterComponent"],
-                _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"],
-                _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyDialogComponent"],
-                _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__["ReportComponent"],
-                _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__["PageNotFoundComponent"]
+                _components_auth_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"],
+                _components_auth_forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_7__["ForgotPasswordComponent"],
+                _components_auth_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_8__["ChangePasswordComponent"],
+                _components_study_study_component__WEBPACK_IMPORTED_MODULE_9__["StudyComponent"],
+                _components_study_study_component__WEBPACK_IMPORTED_MODULE_9__["StudyDialogComponent"],
+                _components_report_report_component__WEBPACK_IMPORTED_MODULE_10__["ReportComponent"],
+                _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_11__["PageNotFoundComponent"]
             ],
             declarations: [
                 _components_layout_header_header_component__WEBPACK_IMPORTED_MODULE_4__["HeaderComponent"],
                 _components_layout_footer_footer_component__WEBPACK_IMPORTED_MODULE_5__["FooterComponent"],
-                _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"],
-                _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyDialogComponent"],
-                _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__["ReportComponent"],
-                _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__["PageNotFoundComponent"]
+                _components_auth_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"],
+                _components_auth_forgot_password_forgot_password_component__WEBPACK_IMPORTED_MODULE_7__["ForgotPasswordComponent"],
+                _components_auth_change_password_change_password_component__WEBPACK_IMPORTED_MODULE_8__["ChangePasswordComponent"],
+                _components_study_study_component__WEBPACK_IMPORTED_MODULE_9__["StudyComponent"],
+                _components_study_study_component__WEBPACK_IMPORTED_MODULE_9__["StudyDialogComponent"],
+                _components_report_report_component__WEBPACK_IMPORTED_MODULE_10__["ReportComponent"],
+                _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_11__["PageNotFoundComponent"]
             ],
-            entryComponents: [_components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyDialogComponent"]],
+            entryComponents: [_components_study_study_component__WEBPACK_IMPORTED_MODULE_9__["StudyDialogComponent"]],
             providers: [],
         })
     ], AppRoutingModule);
@@ -273,6 +285,260 @@ var AuthModule = /** @class */ (function () {
         })
     ], AuthModule);
     return AuthModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/auth/change-password/change-password.component.css":
+/*!*******************************************************************************!*\
+  !*** ./src/app/components/auth/change-password/change-password.component.css ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".login-container{\r\n    margin-top: 15%;\r\n    margin-bottom: 15%;\r\n}\r\n.login-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n.login-form h3{\r\n    text-align: center;\r\n    color: #333;\r\n}\r\n.login-container form{\r\n    padding: 10%;\r\n}\r\n.login-form .ForgetPwd{\r\n    color: #0062cc;\r\n    font-weight: 600;\r\n    text-decoration: none;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9hdXRoL2NoYW5nZS1wYXNzd29yZC9jaGFuZ2UtcGFzc3dvcmQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGVBQWU7SUFDZixrQkFBa0I7QUFDdEI7QUFDQTtJQUNJLFdBQVc7SUFDWCw0RUFBNEU7QUFDaEY7QUFDQTtJQUNJLGtCQUFrQjtJQUNsQixXQUFXO0FBQ2Y7QUFDQTtJQUNJLFlBQVk7QUFDaEI7QUFDQTtJQUNJLGNBQWM7SUFDZCxnQkFBZ0I7SUFDaEIscUJBQXFCO0FBQ3pCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9hdXRoL2NoYW5nZS1wYXNzd29yZC9jaGFuZ2UtcGFzc3dvcmQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5sb2dpbi1jb250YWluZXJ7XHJcbiAgICBtYXJnaW4tdG9wOiAxNSU7XHJcbiAgICBtYXJnaW4tYm90dG9tOiAxNSU7XHJcbn1cclxuLmxvZ2luLWZvcm17XHJcbiAgICBwYWRkaW5nOiA1JTtcclxuICAgIGJveC1zaGFkb3c6IDAgNXB4IDhweCAwIHJnYmEoMCwgMCwgMCwgMC4yKSwgMCA5cHggMjZweCAwIHJnYmEoMCwgMCwgMCwgMC4xOSk7XHJcbn1cclxuLmxvZ2luLWZvcm0gaDN7XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBjb2xvcjogIzMzMztcclxufVxyXG4ubG9naW4tY29udGFpbmVyIGZvcm17XHJcbiAgICBwYWRkaW5nOiAxMCU7XHJcbn1cclxuLmxvZ2luLWZvcm0gLkZvcmdldFB3ZHtcclxuICAgIGNvbG9yOiAjMDA2MmNjO1xyXG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcclxufVxyXG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/change-password/change-password.component.html":
+/*!********************************************************************************!*\
+  !*** ./src/app/components/auth/change-password/change-password.component.html ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container login-container\">\n  <div class=\"row\">\n    <div class=\"col-md-3\"></div>\n    <div class=\"col-md-6\">\n      <div class=\"login-form\">\n        <h3>Change Password</h3>\n        <form [formGroup]=\"changePasswordForm\" (ngSubmit)=\"onSubmit()\">\n          <div class=\"form-group\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Old Password\" formControlName=\"old_password\" />\n            <validation-messages [control]=\"changePasswordForm.controls.old_password\">\n            </validation-messages>\n          </div>\n          <div class=\"form-group\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"New Password\" formControlName=\"new_password\" />\n            <validation-messages [control]=\"changePasswordForm.controls.new_password\">\n            </validation-messages>\n          </div>\n          <div class=\"form-group\">\n            <input type=\"password\" class=\"form-control\" placeholder=\"Confirm Password\" formControlName=\"confirm_password\" />\n            <validation-messages [control]=\"changePasswordForm.controls.confirm_password\">\n            </validation-messages>\n          </div>\n          <div class=\"form-group\">\n            <input type=\"submit\" class=\"btn btn-primary btn-round btn-block\" value=\"Change Password\" [disabled]=\"!changePasswordForm.valid\" />\n          </div>\n          <div class=\"form-group\">\n            <a routerLink=\"/\" class=\"ForgetPwd\">Dashboard</a>\n          </div>\n        </form>\n      </div>\n    </div>\n    <div class=\"col-md-3\"></div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/change-password/change-password.component.ts":
+/*!******************************************************************************!*\
+  !*** ./src/app/components/auth/change-password/change-password.component.ts ***!
+  \******************************************************************************/
+/*! exports provided: ChangePasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChangePasswordComponent", function() { return ChangePasswordComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/user.service */ "./src/app/services/user.service.ts");
+
+
+
+
+
+var ChangePasswordComponent = /** @class */ (function () {
+    function ChangePasswordComponent(userService, formBuilder, titleService) {
+        this.userService = userService;
+        this.formBuilder = formBuilder;
+        this.titleService = titleService;
+        this.title = "Change Password";
+        this.submitted = false;
+        this.titleService.setTitle('Change Password');
+    }
+    ChangePasswordComponent.prototype.ngOnInit = function () {
+        this.changePasswordForm = this.formBuilder.group({
+            old_password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            new_password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            confirm_password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+        });
+    };
+    ChangePasswordComponent.prototype.onSubmit = function () {
+        this.submitted = true;
+        if (this.changePasswordForm.valid) {
+            this.userService.changePassword(this.changePasswordForm.value);
+        }
+    };
+    ChangePasswordComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-change-password',
+            template: __webpack_require__(/*! ./change-password.component.html */ "./src/app/components/auth/change-password/change-password.component.html"),
+            styles: [__webpack_require__(/*! ./change-password.component.css */ "./src/app/components/auth/change-password/change-password.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["Title"]])
+    ], ChangePasswordComponent);
+    return ChangePasswordComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/auth/forgot-password/forgot-password.component.css":
+/*!*******************************************************************************!*\
+  !*** ./src/app/components/auth/forgot-password/forgot-password.component.css ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".login-container{\r\n    margin-top: 15%;\r\n    margin-bottom: 15%;\r\n}\r\n.login-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n.login-form h3{\r\n    text-align: center;\r\n    color: #333;\r\n}\r\n.login-container form{\r\n    padding: 10%;\r\n}\r\n.login-form .ForgetPwd{\r\n    color: #0062cc;\r\n    font-weight: 600;\r\n    text-decoration: none;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9hdXRoL2ZvcmdvdC1wYXNzd29yZC9mb3Jnb3QtcGFzc3dvcmQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGVBQWU7SUFDZixrQkFBa0I7QUFDdEI7QUFDQTtJQUNJLFdBQVc7SUFDWCw0RUFBNEU7QUFDaEY7QUFDQTtJQUNJLGtCQUFrQjtJQUNsQixXQUFXO0FBQ2Y7QUFDQTtJQUNJLFlBQVk7QUFDaEI7QUFDQTtJQUNJLGNBQWM7SUFDZCxnQkFBZ0I7SUFDaEIscUJBQXFCO0FBQ3pCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9hdXRoL2ZvcmdvdC1wYXNzd29yZC9mb3Jnb3QtcGFzc3dvcmQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5sb2dpbi1jb250YWluZXJ7XHJcbiAgICBtYXJnaW4tdG9wOiAxNSU7XHJcbiAgICBtYXJnaW4tYm90dG9tOiAxNSU7XHJcbn1cclxuLmxvZ2luLWZvcm17XHJcbiAgICBwYWRkaW5nOiA1JTtcclxuICAgIGJveC1zaGFkb3c6IDAgNXB4IDhweCAwIHJnYmEoMCwgMCwgMCwgMC4yKSwgMCA5cHggMjZweCAwIHJnYmEoMCwgMCwgMCwgMC4xOSk7XHJcbn1cclxuLmxvZ2luLWZvcm0gaDN7XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBjb2xvcjogIzMzMztcclxufVxyXG4ubG9naW4tY29udGFpbmVyIGZvcm17XHJcbiAgICBwYWRkaW5nOiAxMCU7XHJcbn1cclxuLmxvZ2luLWZvcm0gLkZvcmdldFB3ZHtcclxuICAgIGNvbG9yOiAjMDA2MmNjO1xyXG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcclxufVxyXG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/forgot-password/forgot-password.component.html":
+/*!********************************************************************************!*\
+  !*** ./src/app/components/auth/forgot-password/forgot-password.component.html ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container login-container\">\n  <div class=\"row\">\n    <div class=\"col-md-3\"></div>\n    <div class=\"col-md-6\">\n      <div class=\"login-form\">\n        <h3>Forgot Password</h3>\n        <form [formGroup]=\"forgotPasswordForm\" (ngSubmit)=\"onSubmit()\">\n          <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Email\" formControlName=\"email\" />\n            <validation-messages [control]=\"forgotPasswordForm.controls.email\">\n            </validation-messages>\n          </div>\n          <div class=\"form-group\">\n            <input type=\"submit\" class=\"btn btn-primary btn-round btn-block\" value=\"Login\" [disabled]=\"!forgotPasswordForm.valid\" />\n          </div>\n          <div class=\"form-group\">\n            <a routerLink=\"/login\" class=\"ForgetPwd\">Cancel</a>\n          </div>\n        </form>\n      </div>\n    </div>\n    <div class=\"col-md-3\"></div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/forgot-password/forgot-password.component.ts":
+/*!******************************************************************************!*\
+  !*** ./src/app/components/auth/forgot-password/forgot-password.component.ts ***!
+  \******************************************************************************/
+/*! exports provided: ForgotPasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordComponent", function() { return ForgotPasswordComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../services/user.service */ "./src/app/services/user.service.ts");
+
+
+
+
+
+
+var ForgotPasswordComponent = /** @class */ (function () {
+    function ForgotPasswordComponent(userService, router, formBuilder, titleService) {
+        this.userService = userService;
+        this.router = router;
+        this.formBuilder = formBuilder;
+        this.titleService = titleService;
+        this.title = "Forgot Password";
+        this.submitted = false;
+        this.titleService.setTitle('Forgot Password');
+    }
+    ForgotPasswordComponent.prototype.ngOnInit = function () {
+        if (this.userService.isLoggedIn) {
+            this.router.navigate(['/']);
+        }
+        this.forgotPasswordForm = this.formBuilder.group({
+            email: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+        });
+    };
+    ForgotPasswordComponent.prototype.onSubmit = function () {
+        this.submitted = true;
+        if (this.forgotPasswordForm.valid) {
+            this.userService.forgotPassword(this.forgotPasswordForm.value);
+        }
+    };
+    ForgotPasswordComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-forgot-password',
+            template: __webpack_require__(/*! ./forgot-password.component.html */ "./src/app/components/auth/forgot-password/forgot-password.component.html"),
+            styles: [__webpack_require__(/*! ./forgot-password.component.css */ "./src/app/components/auth/forgot-password/forgot-password.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["Title"]])
+    ], ForgotPasswordComponent);
+    return ForgotPasswordComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/auth/login/login.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/components/auth/login/login.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".login-container{\r\n    margin-top: 15%;\r\n    margin-bottom: 15%;\r\n}\r\n.login-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n.login-form h3{\r\n    text-align: center;\r\n    color: #333;\r\n}\r\n.login-container form{\r\n    padding: 10%;\r\n}\r\n.login-form .ForgetPwd{\r\n    color: #0062cc;\r\n    font-weight: 600;\r\n    text-decoration: none;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9hdXRoL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0FBQ3RCO0FBQ0E7SUFDSSxXQUFXO0lBQ1gsNEVBQTRFO0FBQ2hGO0FBQ0E7SUFDSSxrQkFBa0I7SUFDbEIsV0FBVztBQUNmO0FBQ0E7SUFDSSxZQUFZO0FBQ2hCO0FBQ0E7SUFDSSxjQUFjO0lBQ2QsZ0JBQWdCO0lBQ2hCLHFCQUFxQjtBQUN6QiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvYXV0aC9sb2dpbi9sb2dpbi5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxvZ2luLWNvbnRhaW5lcntcclxuICAgIG1hcmdpbi10b3A6IDE1JTtcclxuICAgIG1hcmdpbi1ib3R0b206IDE1JTtcclxufVxyXG4ubG9naW4tZm9ybXtcclxuICAgIHBhZGRpbmc6IDUlO1xyXG4gICAgYm94LXNoYWRvdzogMCA1cHggOHB4IDAgcmdiYSgwLCAwLCAwLCAwLjIpLCAwIDlweCAyNnB4IDAgcmdiYSgwLCAwLCAwLCAwLjE5KTtcclxufVxyXG4ubG9naW4tZm9ybSBoM3tcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGNvbG9yOiAjMzMzO1xyXG59XHJcbi5sb2dpbi1jb250YWluZXIgZm9ybXtcclxuICAgIHBhZGRpbmc6IDEwJTtcclxufVxyXG4ubG9naW4tZm9ybSAuRm9yZ2V0UHdke1xyXG4gICAgY29sb3I6ICMwMDYyY2M7XHJcbiAgICBmb250LXdlaWdodDogNjAwO1xyXG4gICAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xyXG59XHJcbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/login/login.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/components/auth/login/login.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container login-container\">\n    <div class=\"row\">\n        <div class=\"col-md-3\"></div>\n        <div class=\"col-md-6\">\n            <div class=\"login-form\">\n                <h3>Login</h3>\n                <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                    <div class=\"form-group\">\n                        <input type=\"text\" class=\"form-control\" placeholder=\"Username\" formControlName=\"username\" />\n                        <validation-messages [control]=\"loginForm.controls.username\">\n                        </validation-messages>\n                    </div>\n                    <div class=\"form-group\">\n                        <input type=\"password\" class=\"form-control\" placeholder=\"Password\" formControlName=\"password\" />\n                        <validation-messages [control]=\"loginForm.controls.password\">\n                        </validation-messages>\n                    </div>\n                    <div class=\"form-group\">\n                        <input type=\"submit\" class=\"btn btn-primary btn-round btn-block\" value=\"Login\" [disabled]=\"!loginForm.valid\" />\n                    </div>\n                    <div class=\"form-group\">\n                        <a routerLink=\"/forgot-password\" class=\"ForgetPwd\">Forget Password?</a>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"col-md-3\"></div>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/login/login.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/components/auth/login/login.component.ts ***!
+  \**********************************************************/
+/*! exports provided: LoginComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../services/user.service */ "./src/app/services/user.service.ts");
+
+
+
+
+
+
+var LoginComponent = /** @class */ (function () {
+    function LoginComponent(userService, router, titleService, formBuilder) {
+        this.userService = userService;
+        this.router = router;
+        this.titleService = titleService;
+        this.formBuilder = formBuilder;
+        this.title = "Login";
+        this.submitted = false;
+        this.titleService.setTitle('Login');
+    }
+    LoginComponent.prototype.ngOnInit = function () {
+        if (this.userService.isLoggedIn) {
+            this.router.navigate(['/']);
+        }
+        this.loginForm = this.formBuilder.group({
+            username: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+        });
+    };
+    LoginComponent.prototype.onSubmit = function () {
+        this.submitted = true;
+        if (this.loginForm.valid) {
+            this.userService.login(this.loginForm.value);
+        }
+    };
+    LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-login',
+            template: __webpack_require__(/*! ./login.component.html */ "./src/app/components/auth/login/login.component.html"),
+            styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/components/auth/login/login.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["Title"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"]])
+    ], LoginComponent);
+    return LoginComponent;
 }());
 
 
@@ -508,6 +774,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var PageNotFoundComponent = /** @class */ (function () {
     function PageNotFoundComponent() {
+        this.title = "Page not found";
     }
     PageNotFoundComponent.prototype.ngOnInit = function () { };
     PageNotFoundComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -812,6 +1079,7 @@ var StudyComponent = /** @class */ (function () {
         this.commonService = commonService;
         this.errorLogService = errorLogService;
         this.dialog = dialog;
+        this.title = "Study";
         this.reports = [];
         this.columns = [];
         this.count = [];
@@ -1071,7 +1339,7 @@ var CommonService = /** @class */ (function () {
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));
     };
     CommonService.prototype.updateData = function (method, data) {
-        return this.http.put(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_5__["createUrl"])(method), data)
+        return this.http.post(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_5__["createUrl"])(method), data)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
             return response;
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));

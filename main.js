@@ -48,7 +48,7 @@ var study = require('./controllers/study.controller');
 app.get('/study', study.index);
 app.get('/study/:id', study.index);
 app.post('/study/add', upload.array('photo'), study.add);
-app.put('/study/edit/:id', study.edit);
-app.put('/report/edit/:id', study.editReport);
+app.post('/study/edit/:id', study.edit);
+app.post('/report/edit/:id', study.editReport);
 
 app.get('/*', (request, response) => response.sendFile(path.join(__dirname, 'public/index.html')));
