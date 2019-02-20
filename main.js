@@ -14,8 +14,8 @@ var express = require('express'),
     database = require('./config/database');
 
 var app = express();
-const host = "localhost";
-app.set('port', process.env.PORT || 3000); // const port = 3000;
+const host = "0.0.0.0";
+app.set('port', process.env.PORT || 8080); // const port = 3000;
 
 global.baseURL = 'http://' + host + ':' + app.get('port') + '/';
 global.basePath = __dirname;
