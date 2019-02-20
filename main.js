@@ -14,8 +14,8 @@ var express = require('express'),
     database = require('./config/database');
 
 var app = express();
-const host = "0.0.0.0";
-app.set('port', process.env.PORT || 8080); // const port = 3000;
+const host = "localhost";
+app.set('port', process.env.PORT || 3000); // const port = 3000;
 
 global.baseURL = 'http://' + host + ':' + app.get('port') + '/';
 global.basePath = __dirname;
@@ -49,6 +49,6 @@ app.get('/study', study.index);
 app.get('/study/:id', study.index);
 app.post('/study/add', upload.array('photo'), study.add);
 app.put('/study/edit/:id', study.edit);
-app.put('/study/edit-report/:id', study.editReport);
+app.put('/report/edit/:id', study.editReport);
 
 app.get('/*', (request, response) => response.sendFile(path.join(__dirname, 'public/index.html')));

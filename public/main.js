@@ -51,11 +51,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var routes = [
-    { path: 'page-not-found', component: _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__["PageNotFoundComponent"] },
-    { path: '', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"] },
-    { path: 'dashboard', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"] },
-    { path: 'report/:id', component: _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__["ReportComponent"] },
+    { path: 'page-not-found', component: _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__["PageNotFoundComponent"], data: { title: 'Page not found' } },
+    { path: '', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"], data: { title: 'Study' } },
+    { path: 'study', component: _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"], data: { title: 'Study' } },
+    { path: 'report/:id', component: _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__["ReportComponent"], data: { title: 'Report' } },
     { path: '**', redirectTo: '/page-not-found' }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -72,6 +73,7 @@ var AppRoutingModule = /** @class */ (function () {
                 _components_layout_header_header_component__WEBPACK_IMPORTED_MODULE_4__["HeaderComponent"],
                 _components_layout_footer_footer_component__WEBPACK_IMPORTED_MODULE_5__["FooterComponent"],
                 _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"],
+                _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyDialogComponent"],
                 _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__["ReportComponent"],
                 _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__["PageNotFoundComponent"]
             ],
@@ -79,9 +81,11 @@ var AppRoutingModule = /** @class */ (function () {
                 _components_layout_header_header_component__WEBPACK_IMPORTED_MODULE_4__["HeaderComponent"],
                 _components_layout_footer_footer_component__WEBPACK_IMPORTED_MODULE_5__["FooterComponent"],
                 _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyComponent"],
+                _components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyDialogComponent"],
                 _components_report_report_component__WEBPACK_IMPORTED_MODULE_7__["ReportComponent"],
                 _components_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_8__["PageNotFoundComponent"]
             ],
+            entryComponents: [_components_study_study_component__WEBPACK_IMPORTED_MODULE_6__["StudyDialogComponent"]],
             providers: [],
         })
     ], AppRoutingModule);
@@ -127,21 +131,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/user.service */ "./src/app/services/user.service.ts");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/user.service */ "./src/app/services/user.service.ts");
+
+
 
 
 
 
 var AppComponent = /** @class */ (function () {
     // showHead: boolean = false;
-    // isLoggedIn$: Observable<boolean>;  
-    function AppComponent(router, userService) {
+    // isLoggedIn$: Observable<boolean>;
+    function AppComponent(router, userService, activatedRoute, titleService) {
         // this.showHead = this.userService.isLoggedIn;
         // on route change to '/login', set the variable showHead to false
         var _this = this;
         this.router = router;
         this.userService = userService;
-        this.title = 'school';
+        this.activatedRoute = activatedRoute;
+        this.titleService = titleService;
         router.events.forEach(function (event) {
             if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationStart"]) {
                 if (event['url'] == '/login' || event['url'] == '/forgot-password' || event['url'] == '/change-password') {
@@ -153,6 +162,16 @@ var AppComponent = /** @class */ (function () {
             }
         });
     }
+    AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.router.events.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["filter"])(function (event) { return event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationEnd"]; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function () { return _this.activatedRoute; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (route) {
+            while (route.firstChild) {
+                route = route.firstChild;
+            }
+            ;
+            return route;
+        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["filter"])(function (route) { return route.outlet === 'primary'; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["mergeMap"])(function (route) { return route.data; })).subscribe(function (event) { return _this.titleService.setTitle(event['title']); });
+    };
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-root',
@@ -160,7 +179,9 @@ var AppComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"]])
+            _services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["Title"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -338,8 +359,7 @@ __webpack_require__.r(__webpack_exports__);
 var FooterComponent = /** @class */ (function () {
     function FooterComponent() {
     }
-    FooterComponent.prototype.ngOnInit = function () {
-    };
+    FooterComponent.prototype.ngOnInit = function () { };
     FooterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-footer',
@@ -484,15 +504,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PageNotFoundComponent", function() { return PageNotFoundComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-
 
 
 var PageNotFoundComponent = /** @class */ (function () {
-    function PageNotFoundComponent(titleService) {
-        this.titleService = titleService;
-        this.title = "Page not found";
-        this.titleService.setTitle('Page not found');
+    function PageNotFoundComponent() {
     }
     PageNotFoundComponent.prototype.ngOnInit = function () { };
     PageNotFoundComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -501,7 +516,7 @@ var PageNotFoundComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./page-not-found.component.html */ "./src/app/components/page-not-found/page-not-found.component.html"),
             styles: [__webpack_require__(/*! ./page-not-found.component.css */ "./src/app/components/page-not-found/page-not-found.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], PageNotFoundComponent);
     return PageNotFoundComponent;
 }());
@@ -528,7 +543,7 @@ module.exports = ".card {\r\n\tpadding: 8rem 4rem;\r\n\tmax-width: 210mm;\r\n\tm
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n  <div class=\"container\">\n    <div class=\"wrapper\">\n      <div class=\"report-header\">\n        <div class=\"row\">\n          <div class=\"col-lg-8 col-md-8 col-sm-8\">\n            <h6 class=\"m-0\">Patient: {{PatientName}}</h6>\n            <small>Study : {{Study}} ({{StudyDate}})</small>\n          </div>\n          <div class=\"col-lg-4 col-md-4 col-sm-4\">\n            <div class=\"text-right\">\n              <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\" (click)=\"previewToggle()\"\n                style=\"margin: 0px 10px\">{{previewButton}}</button>\n              <a routerLink=\"/\" class=\"btn btn-sm bg-red txt-white float-right\">Report List</a>\n            </div>\n          </div>\n        </div>\n        <hr />\n      </div>\n      <div class=\"report-body\" *ngIf=\"!preview\">\n        <div class=\"card\">\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <div class=\"form-group\">\n                <label>Report title</label>\n                <input class=\"form-control text-center\" type=\"text\" value=\"Report Title\">\n                <h6 class=\"text-center\"><small>{{currentDate | date:'longDate'}}</small></h6>\n              </div>\n            </div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <label>Report basic info</label>\n              <fieldset>\n                <!-- <legend>Report basic info</legend> -->\n                <div class=\"info-button text-right\">\n                  <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\"\n                    (click)=\"editToggle()\">{{buttonName}}</button>\n                </div>\n                <hr />\n                <div class=\"info-list\" *ngIf=\"!show\">\n                  <div class=\"row\">\n                    <div class=\"col-lg-6 col-md-6 col-sm-6\" *ngFor=\"let detail of patientDetails | keyvalue\">\n                      <b>{{detail.value.key}} : </b><span>{{detail.value.value}}</span>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"info-edit\" *ngIf=\"show\">\n                  <form [formGroup]=\"reportForm\" (ngSubmit)=\"patientDetailsSubmit()\">\n                    <input type=\"hidden\" formControlName=\"_id\">\n                    <ul class=\"patient-details\" cdkDropList (cdkDropListDropped)=\"dropPatientDetails($event)\">\n                      <li class=\"patient-form-box\" formArrayName=\"PatientDetails\"\n                        *ngFor=\"let field of reportForm.get('PatientDetails')['controls']; let i = index\" cdkDrag>\n                        <div class=\"form-group\" [formGroupName]=\"i\">\n                          <label><input class=\"form-control form-control-sm\" formControlName=\"key\"\n                              placeholder=\"Write title...\" (blur)=\"patientDetailsSubmit()\"></label>\n                          <button type=\"button\" class=\"btn btn-sm bg-red txt-white float-right\"\n                            (click)=\"removeField(i)\"><i class=\"fa fa-close\"></i></button>\n                          <input class=\"form-control\" type=\"text\" formControlName=\"value\"\n                            (blur)=\"patientDetailsSubmit()\">\n                        </div>\n                      </li>\n                    </ul>\n                    <div class=\"row\">\n                      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n                        <!-- <div class=\"form-group\">\n                          <button type=\"submit\" class=\"btn btn-sm bg-red txt-white\">Save</button>\n                        </div> -->\n                      </div>\n                      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n                        <div class=\"form-group text-right\">\n                          <button type=\"button\" class=\"btn btn-success btn-sm\" (click)=\"addField()\"><i\n                              class=\"fa fa-plus-circle\"></i> Add\n                            field</button>\n                        </div>\n                      </div>\n                    </div>\n                  </form>\n                </div>\n              </fieldset>\n            </div>\n          </div>\n          <form [formGroup]=\"reportForm\">\n            <div cdkDropList (cdkDropListDropped)=\"dropReportDetails($event)\">\n              <div class=\"row report-form-box\" formArrayName=\"ReportDetails\"\n                *ngFor=\"let field of reportForm.get('ReportDetails')['controls']; let i = index\" cdkDrag>\n                <div class=\"col-lg-12 col-md-12 col-sm-12\">\n                  <div class=\"form-group\" [formGroupName]=\"i\">\n                    <label><input type=\"text\" class=\"form-control form-control-sm\" formControlName=\"key\"\n                        (blur)=\"reportDetailsSubmit()\" placeholder=\"Write title...\" /></label>\n                    <button type=\"button\" class=\"btn btn-sm bg-red txt-white float-right\" (click)=\"removeDetails(i)\"><i\n                        class=\"fa fa-close\"></i></button>\n                    <span class=\"drag-icon float-right\"><i class=\"fa fa-arrows-alt\"></i> Drag to\n                      reorder</span>\n                    <textarea class=\"form-control\" formControlName=\"value\" (blur)=\"reportDetailsSubmit()\"></textarea>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"col-lg-12 col-md-12 col-sm-12\">\n                <div class=\"form-group text-right\">\n                  <button type=\"button\" class=\"btn btn-success btn-sm\" (click)=\"addDetails()\"><i\n                      class=\"fa fa-plus-circle\"></i> Add\n                    field</button>\n                </div>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n      <div class=\"report-body\" *ngIf=\"preview\">\n        <div class=\"card\">\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <div class=\"form-group\">\n                <h5 class=\"text-center\"><b>Report Title</b></h5>\n                <h6 class=\"text-center\"><small>February 14, 2019</small></h6>\n              </div>\n            </div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <fieldset>\n                <div class=\"info-list\">\n                  <div class=\"row\">\n                    <div class=\"col-lg-6 col-md-6 col-sm-6\" *ngFor=\"let detail of patientDetails | keyvalue\">\n                      <b>{{detail.value.key}} : </b><span>{{detail.value.value}}</span>\n                    </div>\n                  </div>\n                </div>\n              </fieldset>\n            </div>\n          </div>\n          <div class=\"row\" *ngFor=\"let detail of reportDetails | keyvalue\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <div class=\"form-group\">\n                <b>{{detail.value.key}} : </b>\n                <p>{{detail.value.value}}</p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"report-footer\">\n        <hr />\n        <div class=\"row\">\n          <div class=\"col-lg-6 col-md-6 col-sm-6\">\n            <a routerLink=\"/\" class=\"btn btn-sm bg-red txt-white\">Report List</a>\n          </div>\n          <div class=\"col-lg-6 col-md-6 col-sm-6\">\n            <div class=\"text-right\">\n              <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\" (click)=\"previewToggle()\"\n                style=\"margin: 0px 10px\">{{previewButton}}</button>\n              <a routerLink=\"/\" class=\"btn btn-sm btn-success\">Finish report</a>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"jumbotron\">\n  <div class=\"container\">\n    <div class=\"wrapper\">\n      <div class=\"report-header\">\n        <div class=\"row\">\n          <div class=\"col-lg-8 col-md-8 col-sm-8\">\n            <h6 class=\"m-0\">Patient: {{PatientName}}</h6>\n            <small>Study : {{Study}} ({{StudyDate}})</small>\n          </div>\n          <div class=\"col-lg-4 col-md-4 col-sm-4\">\n            <div class=\"text-right\">\n              <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\" (click)=\"previewToggle()\"\n                style=\"margin: 0px 10px\">{{previewButton}}</button>\n              <a routerLink=\"/\" class=\"btn btn-sm bg-red txt-white float-right\">Report List</a>\n            </div>\n          </div>\n        </div>\n        <hr />\n      </div>\n      <div class=\"report-body\" *ngIf=\"!preview\">\n        <div class=\"card\">\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <div class=\"form-group\">\n                <label>Report title</label>\n                <input class=\"form-control text-center\" type=\"text\" value=\"Report Title\">\n                <h6 class=\"text-center\"><small>{{currentDate | date:'longDate'}}</small></h6>\n              </div>\n            </div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <label>Report basic info</label>\n              <fieldset>\n                <!-- <legend>Report basic info</legend> -->\n                <div class=\"info-button text-right\">\n                  <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\"\n                    (click)=\"editToggle()\">{{buttonName}}</button>\n                </div>\n                <hr />\n                <div class=\"info-list\" *ngIf=\"!show\">\n                  <div class=\"row\">\n                    <div class=\"col-lg-6 col-md-6 col-sm-6\" *ngFor=\"let detail of reportDetails | keyvalue\">\n                      <b>{{detail.value.key}} : </b><span>{{detail.value.value}}</span>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"info-edit\" *ngIf=\"show\">\n                  <form [formGroup]=\"reportForm\" (ngSubmit)=\"reportDetailsSubmit()\">\n                    <input type=\"hidden\" formControlName=\"_id\">\n                    <ul class=\"patient-details\" cdkDropList (cdkDropListDropped)=\"dropReportDetails($event)\">\n                      <li class=\"patient-form-box\" formArrayName=\"ReportDetails\"\n                        *ngFor=\"let field of reportForm.get('ReportDetails')['controls']; let i = index\" cdkDrag>\n                        <div class=\"form-group\" [formGroupName]=\"i\">\n                          <label><input class=\"form-control form-control-sm\" formControlName=\"key\"\n                              placeholder=\"Write title...\" (blur)=\"reportDetailsSubmit()\"></label>\n                          <button type=\"button\" class=\"btn btn-sm bg-red txt-white float-right\"\n                            (click)=\"removeField(i)\"><i class=\"fa fa-close\"></i></button>\n                          <input class=\"form-control\" type=\"text\" formControlName=\"value\"\n                            (blur)=\"reportDetailsSubmit()\">\n                        </div>\n                      </li>\n                    </ul>\n                    <div class=\"row\">\n                      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n                        <!-- <div class=\"form-group\">\n                          <button type=\"submit\" class=\"btn btn-sm bg-red txt-white\">Save</button>\n                        </div> -->\n                      </div>\n                      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n                        <div class=\"form-group text-right\">\n                          <button type=\"button\" class=\"btn btn-success btn-sm\" (click)=\"addField()\"><i\n                              class=\"fa fa-plus-circle\"></i> Add\n                            field</button>\n                        </div>\n                      </div>\n                    </div>\n                  </form>\n                </div>\n              </fieldset>\n            </div>\n          </div>\n          <form [formGroup]=\"reportForm\">\n            <div cdkDropList (cdkDropListDropped)=\"dropExtraReportDetails($event)\">\n              <div class=\"row report-form-box\" formArrayName=\"ExtraReportDetails\"\n                *ngFor=\"let field of reportForm.get('ExtraReportDetails')['controls']; let i = index\" cdkDrag>\n                <div class=\"col-lg-12 col-md-12 col-sm-12\">\n                  <div class=\"form-group\" [formGroupName]=\"i\">\n                    <label><input type=\"text\" class=\"form-control form-control-sm\" formControlName=\"key\"\n                        (blur)=\"extraReportDetailsSubmit()\" placeholder=\"Write title...\" /></label>\n                    <button type=\"button\" class=\"btn btn-sm bg-red txt-white float-right\" (click)=\"removeDetails(i)\"><i\n                        class=\"fa fa-close\"></i></button>\n                    <span class=\"drag-icon float-right\"><i class=\"fa fa-arrows-alt\"></i> Drag to\n                      reorder</span>\n                    <textarea class=\"form-control\" formControlName=\"value\"\n                      (blur)=\"extraReportDetailsSubmit()\"></textarea>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"col-lg-12 col-md-12 col-sm-12\">\n                <div class=\"form-group text-right\">\n                  <button type=\"button\" class=\"btn btn-success btn-sm\" (click)=\"addDetails()\"><i\n                      class=\"fa fa-plus-circle\"></i> Add\n                    field</button>\n                </div>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n      <div class=\"report-body\" *ngIf=\"preview\">\n        <div class=\"card\">\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <div class=\"form-group\">\n                <h5 class=\"text-center\"><b>Report Title</b></h5>\n                <h6 class=\"text-center\"><small>February 14, 2019</small></h6>\n              </div>\n            </div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <fieldset>\n                <div class=\"info-list\">\n                  <div class=\"row\">\n                    <div class=\"col-lg-6 col-md-6 col-sm-6\" *ngFor=\"let detail of reportDetails | keyvalue\">\n                      <b>{{detail.value.key}} : </b><span>{{detail.value.value}}</span>\n                    </div>\n                  </div>\n                </div>\n              </fieldset>\n            </div>\n          </div>\n          <div class=\"row\" *ngFor=\"let detail of extraReportDetails | keyvalue\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12\">\n              <div class=\"form-group\">\n                <b>{{detail.value.key}} : </b>\n                <p>{{detail.value.value}}</p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"report-footer\">\n        <hr />\n        <div class=\"row\">\n          <div class=\"col-lg-6 col-md-6 col-sm-6\">\n            <a routerLink=\"/\" class=\"btn btn-sm bg-red txt-white\">Report List</a>\n          </div>\n          <div class=\"col-lg-6 col-md-6 col-sm-6\">\n            <div class=\"text-right\">\n              <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\" (click)=\"previewToggle()\"\n                style=\"margin: 0px 10px\">{{previewButton}}</button>\n              <a routerLink=\"/\" class=\"btn btn-sm btn-success\">Finish report</a>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -544,13 +559,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportComponent", function() { return ReportComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _services_common_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/common.service */ "./src/app/services/common.service.ts");
-/* harmony import */ var _services_error_log_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services/error-log.service */ "./src/app/services/error-log.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-
+/* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _services_common_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/common.service */ "./src/app/services/common.service.ts");
+/* harmony import */ var _services_error_log_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/error-log.service */ "./src/app/services/error-log.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 
 
 
@@ -559,27 +572,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ReportComponent = /** @class */ (function () {
-    function ReportComponent(titleService, commonService, errorLogService, route, router, formBuilder) {
-        this.titleService = titleService;
+    function ReportComponent(commonService, errorLogService, route, router, formBuilder) {
         this.commonService = commonService;
         this.errorLogService = errorLogService;
         this.route = route;
         this.router = router;
         this.formBuilder = formBuilder;
-        this.title = 'Report';
         this.currentDate = new Date();
         this.preview = false;
         this.previewButton = 'Preview';
         this.show = false;
         this.buttonName = 'Edit';
-        this.titleService.setTitle('Report');
     }
     ReportComponent.prototype.ngOnInit = function () {
         this.PatientID = this.route.snapshot.paramMap.get("id");
         this.reportForm = this.formBuilder.group({
             _id: [this.PatientID],
-            PatientDetails: this.formBuilder.array([]),
-            ReportDetails: this.formBuilder.array([])
+            ReportDetails: this.formBuilder.array([]),
+            ExtraReportDetails: this.formBuilder.array([])
         });
         this.index();
     };
@@ -587,34 +597,33 @@ var ReportComponent = /** @class */ (function () {
         var _this = this;
         this.commonService.getData('study/' + this.PatientID).subscribe(function (response) {
             if (response.status) {
-                _this.PatientDetails = Object.keys(response.data.PatientDetails).map(function (key) { return ({ objectkey: key, value: response.data.PatientDetails[key].value, key: response.data.PatientDetails[key].key }); });
-                _this.PatientDetails.forEach(function (object) {
-                    if (object.objectkey === 'PatientName') {
+                _this.ReportDetails = Object.keys(response.data.ReportDetails).map(function (key) { return ({ field: key, value: response.data.ReportDetails[key].value, key: response.data.ReportDetails[key].key }); });
+                _this.ReportDetails.forEach(function (object) {
+                    if (object.field === 'PatientName') {
                         _this.PatientName = object.value;
                     }
-                    if (object.objectkey === 'StudyDescription') {
+                    if (object.field === 'StudyDescription') {
                         _this.Study = object.value;
                     }
-                    if (object.objectkey === 'StudyDate') {
+                    if (object.field === 'StudyDate') {
                         _this.StudyDate = object.value;
                     }
-                    _this.reportForm.get('PatientDetails').push(_this.formBuilder.group({
+                    _this.reportForm.get('ReportDetails').push(_this.formBuilder.group({
                         key: [object.key],
                         value: [object.value]
                     }));
                     // this.reportForm.addControl(object.key, this.formBuilder.control(object.value, Validators.required));
                 });
-                _this.patientDetails = response.data.PatientDetails;
-                // console.log(this.patientDetails);
-                if (response.data.ReportDetails !== undefined) {
-                    _this.ReportDetails = Object.keys(response.data.ReportDetails).map(function (key) { return ({ objectkey: key, value: response.data.ReportDetails[key].value, key: response.data.ReportDetails[key].key }); });
-                    _this.ReportDetails.forEach(function (object) {
-                        _this.reportForm.get('ReportDetails').push(_this.formBuilder.group({
+                _this.reportDetails = response.data.ReportDetails;
+                if (response.data.ExtraReportDetails !== undefined) {
+                    _this.ExtraReportDetails = Object.keys(response.data.ExtraReportDetails).map(function (key) { return ({ field: key, value: response.data.ExtraReportDetails[key].value, key: response.data.ExtraReportDetails[key].key }); });
+                    _this.ExtraReportDetails.forEach(function (object) {
+                        _this.reportForm.get('ExtraReportDetails').push(_this.formBuilder.group({
                             key: [object.key],
                             value: [object.value]
                         }));
                     });
-                    _this.reportDetails = response.data.ReportDetails;
+                    _this.extraReportDetails = response.data.ExtraReportDetails;
                 }
             }
             else {
@@ -623,26 +632,26 @@ var ReportComponent = /** @class */ (function () {
             }
         }, function (error) { return _this.errorLogService.handleError(error); });
     };
-    ReportComponent.prototype.patientDetailsSubmit = function () {
+    ReportComponent.prototype.reportDetailsSubmit = function () {
         var _this = this;
-        // var PatientDetails = {};
+        // var ReportDetails = {};
         // this.allDetails.forEach(object => {
-        //   PatientDetails[object.objectkey] = { 'key': object.key, 'value': this.reportForm.controls[object.objectkey].value };
+        //   ReportDetails[object.field] = { 'key': object.key, 'value': this.reportForm.controls[object.field].value };
         // });
         // var NewField = this.reportForm.get('NewField').value;
-        // var ExtraPatientDetails = {};
+        // var ExtraReportDetails = {};
         // NewField.forEach(object => {
-        //   ExtraPatientDetails[object.key.replace(" ", "")] = { 'key': object.key, 'value': object.value };
+        //   ExtraReportDetails[object.key.replace(" ", "")] = { 'key': object.key, 'value': object.value };
         // });
-        // const AllDetails = Object.assign({}, PatientDetails, ExtraPatientDetails);
-        var PatientDetailsValue = this.reportForm.get('PatientDetails').value;
-        var ExtraPatientDetails = {};
-        PatientDetailsValue.forEach(function (object) {
+        // const AllDetails = Object.assign({}, ReportDetails, ExtraReportDetails);
+        var ReportDetailsValue = this.reportForm.get('ReportDetails').value;
+        var ExtraReportDetails = {};
+        ReportDetailsValue.forEach(function (object) {
             if (object.key && object.value) {
-                ExtraPatientDetails[object.key.replace(" ", "")] = { 'key': object.key, 'value': object.value };
+                ExtraReportDetails[object.key.replace(" ", "")] = { 'key': object.key, 'value': object.value };
             }
         });
-        this.commonService.updateData('study/edit/' + this.reportForm.controls['_id'].value, { 'PatientDetails': ExtraPatientDetails }).subscribe(function (response) {
+        this.commonService.updateData('report/edit/' + this.reportForm.controls['_id'].value, { 'ReportDetails': ExtraReportDetails }).subscribe(function (response) {
             if (response.status) {
                 _this.errorLogService.handleSuccess(response.message);
                 // this.router.navigate(['/']);
@@ -652,16 +661,16 @@ var ReportComponent = /** @class */ (function () {
             }
         }, function (error) { return _this.errorLogService.handleError(error); });
     };
-    ReportComponent.prototype.reportDetailsSubmit = function () {
+    ReportComponent.prototype.extraReportDetailsSubmit = function () {
         var _this = this;
-        var ReportDetailsValue = this.reportForm.get('ReportDetails').value;
-        var ExtraPatientDetails = {};
-        ReportDetailsValue.forEach(function (object) {
+        var ExtraReportDetailsValue = this.reportForm.get('ExtraReportDetails').value;
+        var ExtraExtraReportDetails = {};
+        ExtraReportDetailsValue.forEach(function (object) {
             if (object.key && object.value) {
-                ExtraPatientDetails[object.key.replace(" ", "")] = { 'key': object.key, 'value': object.value };
+                ExtraExtraReportDetails[object.key.replace(" ", "")] = { 'key': object.key, 'value': object.value };
             }
         });
-        this.commonService.updateData('study/edit-report/' + this.reportForm.controls['_id'].value, { 'ReportDetails': ReportDetailsValue }).subscribe(function (response) {
+        this.commonService.updateData('report/edit/' + this.reportForm.controls['_id'].value, { 'ExtraReportDetails': ExtraExtraReportDetails }).subscribe(function (response) {
             if (response.status) {
                 _this.errorLogService.handleSuccess(response.message);
                 // this.router.navigate(['/']);
@@ -672,26 +681,26 @@ var ReportComponent = /** @class */ (function () {
         }, function (error) { return _this.errorLogService.handleError(error); });
     };
     ReportComponent.prototype.addField = function () {
-        var arrayControl = this.reportForm.get('PatientDetails');
+        var arrayControl = this.reportForm.get('ReportDetails');
         arrayControl.push(this.formBuilder.group({
             key: [''],
             value: ['']
         }));
     };
     ReportComponent.prototype.removeField = function (index) {
-        var arrayControl = this.reportForm.get('PatientDetails');
+        var arrayControl = this.reportForm.get('ReportDetails');
         arrayControl.removeAt(index);
-        this.patientDetailsSubmit();
+        this.reportDetailsSubmit();
     };
     ReportComponent.prototype.addDetails = function () {
-        var arrayControl = this.reportForm.get('ReportDetails');
+        var arrayControl = this.reportForm.get('ExtraReportDetails');
         arrayControl.push(this.formBuilder.group({
             key: [''],
             value: ['']
         }));
     };
     ReportComponent.prototype.removeDetails = function (index) {
-        var arrayControl = this.reportForm.get('ReportDetails');
+        var arrayControl = this.reportForm.get('ExtraReportDetails');
         arrayControl.removeAt(index);
         this.reportDetailsSubmit();
     };
@@ -709,14 +718,14 @@ var ReportComponent = /** @class */ (function () {
         else
             this.previewButton = "Preview";
     };
-    ReportComponent.prototype.dropPatientDetails = function (event) {
-        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_3__["moveItemInArray"])(this.reportForm.get('PatientDetails')['controls'], event.previousIndex, event.currentIndex);
-        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_3__["moveItemInArray"])(this.reportForm.get('PatientDetails').value, event.previousIndex, event.currentIndex);
-        this.patientDetailsSubmit();
-    };
     ReportComponent.prototype.dropReportDetails = function (event) {
-        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_3__["moveItemInArray"])(this.reportForm.get('ReportDetails')['controls'], event.previousIndex, event.currentIndex);
-        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_3__["moveItemInArray"])(this.reportForm.get('ReportDetails').value, event.previousIndex, event.currentIndex);
+        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_2__["moveItemInArray"])(this.reportForm.get('ReportDetails')['controls'], event.previousIndex, event.currentIndex);
+        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_2__["moveItemInArray"])(this.reportForm.get('ReportDetails').value, event.previousIndex, event.currentIndex);
+        this.reportDetailsSubmit();
+    };
+    ReportComponent.prototype.dropExtraReportDetails = function (event) {
+        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_2__["moveItemInArray"])(this.reportForm.get('ExtraReportDetails')['controls'], event.previousIndex, event.currentIndex);
+        Object(_angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_2__["moveItemInArray"])(this.reportForm.get('ExtraReportDetails').value, event.previousIndex, event.currentIndex);
         this.reportDetailsSubmit();
     };
     ReportComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -725,17 +734,27 @@ var ReportComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./report.component.html */ "./src/app/components/report/report.component.html"),
             styles: [__webpack_require__(/*! ./report.component.css */ "./src/app/components/report/report.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"],
-            _services_common_service__WEBPACK_IMPORTED_MODULE_5__["CommonService"],
-            _services_error_log_service__WEBPACK_IMPORTED_MODULE_6__["ErrorLogService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_7__["ActivatedRoute"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_7__["Router"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_common_service__WEBPACK_IMPORTED_MODULE_4__["CommonService"],
+            _services_error_log_service__WEBPACK_IMPORTED_MODULE_5__["ErrorLogService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_6__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"]])
     ], ReportComponent);
     return ReportComponent;
 }());
 
 
+
+/***/ }),
+
+/***/ "./src/app/components/study/study-dialog.html":
+/*!****************************************************!*\
+  !*** ./src/app/components/study/study-dialog.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"dialog-content\">\n  <form [formGroup]=\"reportForm\" (ngSubmit)=\"patientDetailsSubmit()\">\n    <input type=\"hidden\" formControlName=\"_id\">\n    <div class=\"dialog-header\">\n      <h5>Edit Study</h5>\n    </div>\n    <hr />\n    <div class=\"dialog-body\">\n      <div class=\"row\">\n        <div class=\"col-lg-6 col-md-6 col-sm-6\" formArrayName=\"PatientDetails\"\n          *ngFor=\"let field of reportForm.get('PatientDetails')['controls']; let i = index\">\n          <div class=\"form-group\" [formGroupName]=\"i\">\n            <label><input class=\"form-control form-control-sm\" formControlName=\"key\"\n                placeholder=\"Write title...\"></label>\n            <button type=\"button\" class=\"btn btn-sm bg-red txt-white float-right\" (click)=\"removeField(i)\"><i\n                class=\"fa fa-close\"></i></button>\n            <input class=\"form-control\" type=\"text\" formControlName=\"value\">\n          </div>\n        </div>\n      </div>\n    </div>\n    <hr />\n    <div class=\"dialog-footer\">\n      <div class=\"row\">\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <div class=\"form-group\">\n            <button type=\"button\" class=\"btn btn-success btn-sm\" (click)=\"addField()\"><i class=\"fa fa-plus-circle\"></i>\n              Add\n              field</button>\n          </div>\n        </div>\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <div class=\"form-group text-right\">\n            <button type=\"submit\" class=\"btn btn-sm bg-red txt-white\">Save</button>\n            <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\" (click)=\"close()\">Close</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </form>\n</div>"
 
 /***/ }),
 
@@ -746,7 +765,7 @@ var ReportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".card {\r\n    margin: 15px 0px;\r\n}\r\n/* table {\r\n  width: 100%;\r\n} */\r\n.table th,.table td {\r\n  white-space: nowrap;\r\n  font-size:12px;\r\n}\r\ntr.example-detail-row {\r\n  height: 0;\r\n}\r\ntr.example-element-row:not(.example-expanded-row):hover {\r\n  background: #f5f5f5;\r\n}\r\ntr.example-element-row:not(.example-expanded-row):active {\r\n  background: #efefef;\r\n}\r\n.example-element-row td {\r\n  border-bottom-width: 0;\r\n}\r\n.example-element-detail {\r\n  overflow: hidden;\r\n  display: flex;\r\n}\r\n.example-element-diagram {\r\n  min-width: 80px;\r\n  border: 2px solid black;\r\n  padding: 8px;\r\n  font-weight: lighter;\r\n  margin: 8px 0;\r\n  height: 104px;\r\n}\r\n.example-element-symbol {\r\n  font-weight: bold;\r\n  font-size: 40px;\r\n  line-height: normal;\r\n}\r\n.example-element-description {\r\n  padding: 16px;\r\n}\r\n.example-element-description-attribution {\r\n  opacity: 0.5;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9zdHVkeS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksZ0JBQWdCO0FBQ3BCO0FBQ0E7O0dBRUc7QUFFSDtFQUNFLG1CQUFtQjtFQUNuQixjQUFjO0FBQ2hCO0FBRUE7RUFDRSxTQUFTO0FBQ1g7QUFFQTtFQUNFLG1CQUFtQjtBQUNyQjtBQUVBO0VBQ0UsbUJBQW1CO0FBQ3JCO0FBRUE7RUFDRSxzQkFBc0I7QUFDeEI7QUFFQTtFQUNFLGdCQUFnQjtFQUNoQixhQUFhO0FBQ2Y7QUFFQTtFQUNFLGVBQWU7RUFDZix1QkFBdUI7RUFDdkIsWUFBWTtFQUNaLG9CQUFvQjtFQUNwQixhQUFhO0VBQ2IsYUFBYTtBQUNmO0FBRUE7RUFDRSxpQkFBaUI7RUFDakIsZUFBZTtFQUNmLG1CQUFtQjtBQUNyQjtBQUVBO0VBQ0UsYUFBYTtBQUNmO0FBRUE7RUFDRSxZQUFZO0FBQ2QiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3N0dWR5L3N0dWR5LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY2FyZCB7XHJcbiAgICBtYXJnaW46IDE1cHggMHB4O1xyXG59XHJcbi8qIHRhYmxlIHtcclxuICB3aWR0aDogMTAwJTtcclxufSAqL1xyXG5cclxuLnRhYmxlIHRoLC50YWJsZSB0ZCB7XHJcbiAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcclxuICBmb250LXNpemU6MTJweDtcclxufVxyXG5cclxudHIuZXhhbXBsZS1kZXRhaWwtcm93IHtcclxuICBoZWlnaHQ6IDA7XHJcbn1cclxuXHJcbnRyLmV4YW1wbGUtZWxlbWVudC1yb3c6bm90KC5leGFtcGxlLWV4cGFuZGVkLXJvdyk6aG92ZXIge1xyXG4gIGJhY2tncm91bmQ6ICNmNWY1ZjU7XHJcbn1cclxuXHJcbnRyLmV4YW1wbGUtZWxlbWVudC1yb3c6bm90KC5leGFtcGxlLWV4cGFuZGVkLXJvdyk6YWN0aXZlIHtcclxuICBiYWNrZ3JvdW5kOiAjZWZlZmVmO1xyXG59XHJcblxyXG4uZXhhbXBsZS1lbGVtZW50LXJvdyB0ZCB7XHJcbiAgYm9yZGVyLWJvdHRvbS13aWR0aDogMDtcclxufVxyXG5cclxuLmV4YW1wbGUtZWxlbWVudC1kZXRhaWwge1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgZGlzcGxheTogZmxleDtcclxufVxyXG5cclxuLmV4YW1wbGUtZWxlbWVudC1kaWFncmFtIHtcclxuICBtaW4td2lkdGg6IDgwcHg7XHJcbiAgYm9yZGVyOiAycHggc29saWQgYmxhY2s7XHJcbiAgcGFkZGluZzogOHB4O1xyXG4gIGZvbnQtd2VpZ2h0OiBsaWdodGVyO1xyXG4gIG1hcmdpbjogOHB4IDA7XHJcbiAgaGVpZ2h0OiAxMDRweDtcclxufVxyXG5cclxuLmV4YW1wbGUtZWxlbWVudC1zeW1ib2wge1xyXG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gIGZvbnQtc2l6ZTogNDBweDtcclxuICBsaW5lLWhlaWdodDogbm9ybWFsO1xyXG59XHJcblxyXG4uZXhhbXBsZS1lbGVtZW50LWRlc2NyaXB0aW9uIHtcclxuICBwYWRkaW5nOiAxNnB4O1xyXG59XHJcblxyXG4uZXhhbXBsZS1lbGVtZW50LWRlc2NyaXB0aW9uLWF0dHJpYnV0aW9uIHtcclxuICBvcGFjaXR5OiAwLjU7XHJcbn1cclxuIl19 */"
+module.exports = ".card {\r\n  margin: 15px 0px;\r\n}\r\n\r\n/* table {\r\n  width: 100%;\r\n} */\r\n\r\n.table th, .table td {\r\n  white-space: nowrap;\r\n  font-size: 12px;\r\n}\r\n\r\ntr.example-detail-row {\r\n  height: 0;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):hover {\r\n  background: #f5f5f5;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):active {\r\n  background: #efefef;\r\n}\r\n\r\n.example-element-row td {\r\n  border-bottom-width: 0;\r\n}\r\n\r\n.example-element-detail {\r\n  overflow: hidden;\r\n  display: flex;\r\n}\r\n\r\n.example-element-diagram {\r\n  min-width: 80px;\r\n  border: 2px solid black;\r\n  padding: 8px;\r\n  font-weight: lighter;\r\n  margin: 8px 0;\r\n  height: 104px;\r\n}\r\n\r\n.example-element-symbol {\r\n  font-weight: bold;\r\n  font-size: 40px;\r\n  line-height: normal;\r\n}\r\n\r\n.example-element-description {\r\n  padding: 16px;\r\n}\r\n\r\n.example-element-description-attribution {\r\n  opacity: 0.5;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9zdHVkeS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZ0JBQWdCO0FBQ2xCOztBQUVBOztHQUVHOztBQUVIO0VBQ0UsbUJBQW1CO0VBQ25CLGVBQWU7QUFDakI7O0FBRUE7RUFDRSxTQUFTO0FBQ1g7O0FBRUE7RUFDRSxtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxzQkFBc0I7QUFDeEI7O0FBRUE7RUFDRSxnQkFBZ0I7RUFDaEIsYUFBYTtBQUNmOztBQUVBO0VBQ0UsZUFBZTtFQUNmLHVCQUF1QjtFQUN2QixZQUFZO0VBQ1osb0JBQW9CO0VBQ3BCLGFBQWE7RUFDYixhQUFhO0FBQ2Y7O0FBRUE7RUFDRSxpQkFBaUI7RUFDakIsZUFBZTtFQUNmLG1CQUFtQjtBQUNyQjs7QUFFQTtFQUNFLGFBQWE7QUFDZjs7QUFFQTtFQUNFLFlBQVk7QUFDZCIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvc3R1ZHkuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jYXJkIHtcclxuICBtYXJnaW46IDE1cHggMHB4O1xyXG59XHJcblxyXG4vKiB0YWJsZSB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbn0gKi9cclxuXHJcbi50YWJsZSB0aCwgLnRhYmxlIHRkIHtcclxuICB3aGl0ZS1zcGFjZTogbm93cmFwO1xyXG4gIGZvbnQtc2l6ZTogMTJweDtcclxufVxyXG5cclxudHIuZXhhbXBsZS1kZXRhaWwtcm93IHtcclxuICBoZWlnaHQ6IDA7XHJcbn1cclxuXHJcbnRyLmV4YW1wbGUtZWxlbWVudC1yb3c6bm90KC5leGFtcGxlLWV4cGFuZGVkLXJvdyk6aG92ZXIge1xyXG4gIGJhY2tncm91bmQ6ICNmNWY1ZjU7XHJcbn1cclxuXHJcbnRyLmV4YW1wbGUtZWxlbWVudC1yb3c6bm90KC5leGFtcGxlLWV4cGFuZGVkLXJvdyk6YWN0aXZlIHtcclxuICBiYWNrZ3JvdW5kOiAjZWZlZmVmO1xyXG59XHJcblxyXG4uZXhhbXBsZS1lbGVtZW50LXJvdyB0ZCB7XHJcbiAgYm9yZGVyLWJvdHRvbS13aWR0aDogMDtcclxufVxyXG5cclxuLmV4YW1wbGUtZWxlbWVudC1kZXRhaWwge1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgZGlzcGxheTogZmxleDtcclxufVxyXG5cclxuLmV4YW1wbGUtZWxlbWVudC1kaWFncmFtIHtcclxuICBtaW4td2lkdGg6IDgwcHg7XHJcbiAgYm9yZGVyOiAycHggc29saWQgYmxhY2s7XHJcbiAgcGFkZGluZzogOHB4O1xyXG4gIGZvbnQtd2VpZ2h0OiBsaWdodGVyO1xyXG4gIG1hcmdpbjogOHB4IDA7XHJcbiAgaGVpZ2h0OiAxMDRweDtcclxufVxyXG5cclxuLmV4YW1wbGUtZWxlbWVudC1zeW1ib2wge1xyXG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gIGZvbnQtc2l6ZTogNDBweDtcclxuICBsaW5lLWhlaWdodDogbm9ybWFsO1xyXG59XHJcblxyXG4uZXhhbXBsZS1lbGVtZW50LWRlc2NyaXB0aW9uIHtcclxuICBwYWRkaW5nOiAxNnB4O1xyXG59XHJcblxyXG4uZXhhbXBsZS1lbGVtZW50LWRlc2NyaXB0aW9uLWF0dHJpYnV0aW9uIHtcclxuICBvcGFjaXR5OiAwLjU7XHJcbn0iXX0= */"
 
 /***/ }),
 
@@ -757,7 +776,7 @@ module.exports = ".card {\r\n    margin: 15px 0px;\r\n}\r\n/* table {\r\n  width
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n  <div class=\"container\">\n    <div class=\"wrapper\">\n      <div class=\"row\">\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <h5 class=\"m-0\">Your reports</h5>\n        </div>\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <p class=\"text-right m-0\">{{count}} reports found</p>\n        </div>\n      </div>\n      <hr />\n      <div class=\"row\">\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <input type=\"search\" placeholder=\"Search\" class=\"form-control\">\n        </div>\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <button class=\"btn bg-red txt-white float-right\" data-toggle=\"modal\" data-target=\"#studyModal\">Add\n            Study</button>\n        </div>\n      </div>\n      <hr />\n      <div class=\"row\">\n        <div class=\"col-lg-12 col-md-12 col-sm-12\">\n          <!-- <table mat-table [dataSource]=\"dataSource\" multiTemplateDataRows class=\"mat-elevation-z8\">\n            <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\n              <th mat-header-cell *matHeaderCellDef> {{column}} </th>\n              <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\n            </ng-container>\n\n            <ng-container matColumnDef=\"expandedDetail\">\n              <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n                <div class=\"example-element-detail\"\n                  [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n                  <div class=\"example-element-diagram\">\n                    <div class=\"example-element-position\"> {{element.position}} </div>\n                    <div class=\"example-element-symbol\"> {{element.symbol}} </div>\n                    <div class=\"example-element-name\"> {{element.name}} </div>\n                    <div class=\"example-element-weight\"> {{element.weight}} </div>\n                  </div>\n                  <div class=\"example-element-description\">\n                    {{element.description}}\n                    <span class=\"example-element-description-attribution\"> -- Wikipedia </span>\n                  </div>\n                </div>\n              </td>\n            </ng-container>\n\n            <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n            <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"example-element-row\"\n              [class.example-expanded-row]=\"expandedElement === element\"\n              (click)=\"expandedElement = expandedElement === element ? null : element\">\n            </tr>\n            <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n          </table> -->\n\n          <div class=\"table-responsive\">\n            <table class=\"table table-bordered table-hover\">\n              <thead class=\"thead-dark\">\n                <tr *ngFor=\"let report of columns | keyvalue\">\n                  <th *ngFor=\"let row of report.value\">{{row.data}}</th>\n                  <th *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.key}}</th>\n                  <th>Action</th>\n                </tr>\n              </thead>\n              <tbody *ngFor=\"let report of reports | keyvalue\">\n                <tr class=\"clickable\" data-toggle=\"collapse\" [attr.id]=\"'row'+report.key\"\n                  [attr.data-target]=\"'.row-'+report.key\">\n                  <td *ngFor=\"let row of report.value\">{{row.value}}</td>\n                  <td *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.value}}</td>\n                  <td> <a class=\"btn btn-sm bg-grey txt-white\" routerLink=\"/report/{{report.key}}\">Edit</a></td>\n                </tr>\n                <tr class=\"collapse table-active row-{{report.key}}\" *ngFor=\"let file of report.value.Files | keyvalue\">\n                  <td *ngFor=\"let row of report.value\"></td>\n                  <td *ngFor=\"let row of file.value | keyvalue\">{{row.value.value}}</td>\n                  <td></td>\n                </tr>\n              </tbody>\n              <!-- <tbody>\n                <tr *ngFor=\"let report of reports; let i=index\" class=\"clickable\" data-toggle=\"collapse\"\n                  [attr.id]=\"'row'+i\" [attr.data-target]=\"'.row-'+report._id\">\n                  <td>{{report.PatientID}}</td>\n                  <td>{{report.ExtraData.PatientName.value}}</td>\n                  <td>{{report.ExtraData.Gender.value}}</td>\n                  <td>{{report.ExtraData.Age.value}}</td>\n                  <td>-</td>\n                  <td>-</td>\n                  <td><a class=\"btn btn-primary\" routerLink=\"/report/{{report._id}}\">Edit</a></td>\n                </tr>\n                <tr class=\"collapse row-{{file.key}}\" *ngFor=\"let file of files | keyvalue; let i=index\">\n                  <div *ngFor=\"let rows of file.value | keyvalue\">\n                    <b>{{rows.value.Protocol.key}} : </b>{{rows.value.Protocol.value}} <br />\n                    <b>{{rows.value.StudyDescription.key}} : </b>{{rows.value.StudyDescription.value}} <br />\n                    <b>{{rows.value.Modality.key}} : </b>{{rows.value.Modality.value}} <br />\n                    <b>{{rows.value.Comments.key}} : </b>{{rows.value.Comments.value}} <br /><br />\n                  </div>\n                </tr>\n              </tbody> -->\n            </table>\n          </div>\n        </div>\n      </div>\n      <!-- <div class=\"row\">\n        <div class=\"col-lg-6 col-md-6 col-sm-6\" *ngFor=\"let report of reports\">\n          <div class=\"card\">\n            <div class=\"card-header\">\n              {{report.PatientID}}\n            </div>\n            <div class=\"card-body\">\n              <h5 class=\"card-title\">{{report.ExtraData.PatientName.value}}</h5>\n              <p class=\"card-text\">With supporting text below as a natural lead-in to additional content.</p>\n              <a class=\"btn btn-primary\" routerLink=\"/report/{{report._id}}\">Edit</a>\n            </div>\n          </div>\n        </div>\n      </div> -->\n    </div>\n  </div>\n</div>\n<div class=\"modal fade\" id=\"studyModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"studyModalLabel\"\n  aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Add {{title}}</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"form-group\">\n          <label>Upload folder</label>\n          <!-- <div class=\"custom-file\">\n  <input type=\"file\" class=\"custom-file-input\" id=\"customFileLang\" lang=\"es\">\n  <label class=\"custom-file-label\" for=\"customFileLang\">Seleccionar Archivo</label>\n</div> -->\n          <input class=\"form-control-file\" type=\"file\" #folderInput (change)=\"onSubmit(folderInput.files)\"\n            webkitDirectory>\n        </div>\n        <div class=\"form-group\">\n          <label>Upload file</label>\n          <input class=\"form-control-file\" type=\"file\" name=\"photo\" (change)=\"onSubmit($event.target.files)\" multiple />\n        </div>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"jumbotron\">\n  <div class=\"container\">\n    <div class=\"wrapper\">\n      <div class=\"row\">\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <h5 class=\"m-0\">Study list</h5>\n        </div>\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <p class=\"text-right m-0\">{{count}} reports found</p>\n        </div>\n      </div>\n      <hr />\n      <div class=\"row\">\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <input type=\"search\" placeholder=\"Search\" class=\"form-control\">\n        </div>\n        <div class=\"col-lg-6 col-md-6 col-sm-6\">\n          <button class=\"btn bg-red txt-white float-right\" data-toggle=\"modal\" data-target=\"#studyModal\">Add\n            Study</button>\n        </div>\n      </div>\n      <hr />\n      <div class=\"row\">\n        <div class=\"col-lg-12 col-md-12 col-sm-12\">\n          <!-- <table mat-table [dataSource]=\"dataSource\" multiTemplateDataRows class=\"mat-elevation-z8\">\n            <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\n              <th mat-header-cell *matHeaderCellDef> {{column}} </th>\n              <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\n            </ng-container>\n\n            <ng-container matColumnDef=\"expandedDetail\">\n              <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n                <div class=\"example-element-detail\"\n                  [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n                  <div class=\"example-element-diagram\">\n                    <div class=\"example-element-position\"> {{element.position}} </div>\n                    <div class=\"example-element-symbol\"> {{element.symbol}} </div>\n                    <div class=\"example-element-name\"> {{element.name}} </div>\n                    <div class=\"example-element-weight\"> {{element.weight}} </div>\n                  </div>\n                  <div class=\"example-element-description\">\n                    {{element.description}}\n                    <span class=\"example-element-description-attribution\"> -- Wikipedia </span>\n                  </div>\n                </div>\n              </td>\n            </ng-container>\n\n            <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n            <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"example-element-row\"\n              [class.example-expanded-row]=\"expandedElement === element\"\n              (click)=\"expandedElement = expandedElement === element ? null : element\">\n            </tr>\n            <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n          </table> -->\n\n          <div class=\"table-responsive\">\n            <table class=\"table table-bordered table-hover\">\n              <thead class=\"thead-dark\">\n                <tr *ngFor=\"let report of columns | keyvalue\">\n                  <th *ngFor=\"let row of report.value\">{{row.data}}</th>\n                  <!-- <th *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.key}}</th> -->\n                  <th>Action</th>\n                </tr>\n              </thead>\n              <tbody *ngFor=\"let report of reports | keyvalue\">\n                <tr class=\"clickable\" data-toggle=\"collapse\" [attr.id]=\"'row'+report.key\"\n                  [attr.data-target]=\"'.row-'+report.key\">\n                  <td *ngFor=\"let row of report.value\">{{row.value}}</td>\n                  <!-- <td *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.value}}</td> -->\n                  <td>\n                    <a class=\"btn btn-sm bg-grey txt-white\" routerLink=\"/report/{{report.key}}\">Report</a>\n                    <button class=\"btn btn-sm bg-grey txt-white\" (click)=\"openDialog(report.key)\">Edit</button>\n                  </td>\n                </tr>\n                <!-- <tr class=\"collapse table-active row-{{report.key}}\" *ngFor=\"let file of report.value.Files | keyvalue\">\n                  <td *ngFor=\"let row of report.value\"></td>\n                  <td *ngFor=\"let row of file.value | keyvalue\">{{row.value.value}}</td>\n                  <td></td>\n                </tr> -->\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"modal fade\" id=\"studyModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"studyModalLabel\"\n  aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Add {{title}}</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"form-group\">\n          <label>Upload folder</label>\n          <!-- <div class=\"custom-file\">\n  <input type=\"file\" class=\"custom-file-input\" id=\"customFileLang\" lang=\"es\">\n  <label class=\"custom-file-label\" for=\"customFileLang\">Seleccionar Archivo</label>\n</div> -->\n          <input class=\"form-control-file\" type=\"file\" #folderInput (change)=\"onSubmit(folderInput.files)\"\n            webkitDirectory>\n        </div>\n        <div class=\"form-group\">\n          <label>Upload file</label>\n          <input class=\"form-control-file\" type=\"file\" name=\"photo\" (change)=\"onSubmit($event.target.files)\" multiple />\n        </div>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -765,17 +784,18 @@ module.exports = "<div class=\"jumbotron\">\n  <div class=\"container\">\n    <d
 /*!*****************************************************!*\
   !*** ./src/app/components/study/study.component.ts ***!
   \*****************************************************/
-/*! exports provided: StudyComponent */
+/*! exports provided: StudyComponent, StudyDialogComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StudyComponent", function() { return StudyComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StudyDialogComponent", function() { return StudyDialogComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm5/animations.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm5/animations.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _services_common_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/common.service */ "./src/app/services/common.service.ts");
 /* harmony import */ var _services_error_log_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services/error-log.service */ "./src/app/services/error-log.service.ts");
 
@@ -787,17 +807,16 @@ __webpack_require__.r(__webpack_exports__);
 
 var StudyComponent = /** @class */ (function () {
     // columnsToDisplay = ['PatientID', 'Patient', 'Gender', 'Age', 'Study Description', 'Modality', 'Comments', 'Action'];
-    function StudyComponent(titleService, commonService, errorLogService) {
-        this.titleService = titleService;
+    function StudyComponent(formBuilder, commonService, errorLogService, dialog) {
+        this.formBuilder = formBuilder;
         this.commonService = commonService;
         this.errorLogService = errorLogService;
-        this.title = 'Study';
+        this.dialog = dialog;
         this.reports = [];
         this.columns = [];
         this.count = [];
         this.fileToUpload = [];
         this.columnsToDisplay = ['PatientID', 'Action'];
-        this.titleService.setTitle('Study');
     }
     StudyComponent.prototype.ngOnInit = function () {
         this.index();
@@ -811,7 +830,7 @@ var StudyComponent = /** @class */ (function () {
                 // this.dataSource.sort = this.sort;
                 // this.dataSource.paginator = this.paginator;
                 _this.columns[0] = Object.keys(response.data[0].PatientDetails).map(function (key) { return ({ key: key, value: response.data[0].PatientDetails[key].value, data: response.data[0].PatientDetails[key].key }); });
-                _this.columns[0]['Files'] = Object.keys(response.data[0].FileDetails).map(function (key) { return (response.data[0].FileDetails[key]); });
+                // this.columns[0]['Files'] = Object.keys(response.data[0].FileDetails).map(key => (response.data[0].FileDetails[key]));
                 response.data.forEach(function (element) {
                     _this.reports[element._id] = Object.keys(element.PatientDetails).map(function (key) { return ({ key: key, value: element.PatientDetails[key].value, data: element.PatientDetails[key].key }); });
                     _this.reports[element._id]['Files'] = Object.keys(element.FileDetails).map(function (key) { return (element.FileDetails[key]); });
@@ -843,32 +862,121 @@ var StudyComponent = /** @class */ (function () {
             }
         }, function (error) { return _this.errorLogService.handleError(error); });
     };
+    StudyComponent.prototype.openDialog = function (ID) {
+        var _this = this;
+        var dialogRef = this.dialog.open(StudyDialogComponent, {
+            width: '75%',
+            height: '600px',
+            data: { id: ID }
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            _this.index();
+        });
+    };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_3__["MatPaginator"]),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatPaginator"])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatPaginator"]),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatPaginator"])
     ], StudyComponent.prototype, "paginator", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_3__["MatSort"]),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatSort"])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSort"]),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSort"])
     ], StudyComponent.prototype, "sort", void 0);
     StudyComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-study',
             template: __webpack_require__(/*! ./study.component.html */ "./src/app/components/study/study.component.html"),
             animations: [
-                Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["trigger"])('detailExpand', [
-                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["state"])('collapsed', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["style"])({ height: '0px', minHeight: '0', display: 'none' })),
-                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["state"])('expanded', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["style"])({ height: '*' })),
-                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["transition"])('expanded <=> collapsed', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["animate"])('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                Object(_angular_animations__WEBPACK_IMPORTED_MODULE_3__["trigger"])('detailExpand', [
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_3__["state"])('collapsed', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_3__["style"])({ height: '0px', minHeight: '0', display: 'none' })),
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_3__["state"])('expanded', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_3__["style"])({ height: '*' })),
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_3__["transition"])('expanded <=> collapsed', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_3__["animate"])('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
                 ]),
             ],
             styles: [__webpack_require__(/*! ./study.component.css */ "./src/app/components/study/study.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
             _services_common_service__WEBPACK_IMPORTED_MODULE_5__["CommonService"],
-            _services_error_log_service__WEBPACK_IMPORTED_MODULE_6__["ErrorLogService"]])
+            _services_error_log_service__WEBPACK_IMPORTED_MODULE_6__["ErrorLogService"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"]])
     ], StudyComponent);
     return StudyComponent;
+}());
+
+/****************************************************************************************** */
+var StudyDialogComponent = /** @class */ (function () {
+    function StudyDialogComponent(dialogRef, data, commonService, formBuilder, errorLogService) {
+        this.dialogRef = dialogRef;
+        this.commonService = commonService;
+        this.formBuilder = formBuilder;
+        this.errorLogService = errorLogService;
+        this.ID = data.id;
+        this.reportForm = this.formBuilder.group({
+            _id: [this.ID],
+            PatientDetails: this.formBuilder.array([])
+        });
+    }
+    StudyDialogComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.commonService.getData('study/' + this.ID).subscribe(function (response) {
+            if (response.status) {
+                var PatientDetails = Object.keys(response.data.PatientDetails).map(function (key) { return ({ field: key, value: response.data.PatientDetails[key].value, key: response.data.PatientDetails[key].key }); });
+                PatientDetails.forEach(function (object) {
+                    _this.reportForm.get('PatientDetails').push(_this.formBuilder.group({
+                        key: [object.key],
+                        value: [object.value]
+                    }));
+                });
+            }
+            else {
+                _this.errorLogService.handleError(response.message);
+            }
+        }, function (error) { return _this.errorLogService.handleError(error); });
+    };
+    StudyDialogComponent.prototype.patientDetailsSubmit = function () {
+        var _this = this;
+        var PatientDetailsValue = this.reportForm.get('PatientDetails').value;
+        var ExtraPatientDetails = {};
+        PatientDetailsValue.forEach(function (object) {
+            if (object.key) {
+                ExtraPatientDetails[object.key.replace(" ", "")] = { 'key': object.key, 'value': object.value };
+            }
+        });
+        this.commonService.updateData('study/edit/' + this.reportForm.controls['_id'].value, { 'PatientDetails': ExtraPatientDetails }).subscribe(function (response) {
+            if (response.status) {
+                _this.errorLogService.handleSuccess(response.message);
+                _this.close();
+            }
+            else {
+                _this.errorLogService.handleError(response.message);
+            }
+        }, function (error) { return _this.errorLogService.handleError(error); });
+    };
+    StudyDialogComponent.prototype.close = function () {
+        this.dialogRef.close();
+    };
+    StudyDialogComponent.prototype.addField = function () {
+        var arrayControl = this.reportForm.get('PatientDetails');
+        arrayControl.push(this.formBuilder.group({
+            key: [''],
+            value: ['']
+        }));
+    };
+    StudyDialogComponent.prototype.removeField = function (index) {
+        var arrayControl = this.reportForm.get('PatientDetails');
+        arrayControl.removeAt(index);
+    };
+    StudyDialogComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-study-dialog',
+            template: __webpack_require__(/*! ./study-dialog.html */ "./src/app/components/study/study-dialog.html"),
+            styles: [__webpack_require__(/*! ./study.component.css */ "./src/app/components/study/study.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MAT_DIALOG_DATA"])),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"], Object, _services_common_service__WEBPACK_IMPORTED_MODULE_5__["CommonService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
+            _services_error_log_service__WEBPACK_IMPORTED_MODULE_6__["ErrorLogService"]])
+    ], StudyDialogComponent);
+    return StudyDialogComponent;
 }());
 
 
@@ -1337,6 +1445,7 @@ var SharedModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatPaginatorModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSortModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialogModule"],
                 _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_6__["DragDropModule"]
             ],
             declarations: [
@@ -1350,6 +1459,7 @@ var SharedModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatPaginatorModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSortModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialogModule"],
                 _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_6__["DragDropModule"],
                 _components_validation_validation_component__WEBPACK_IMPORTED_MODULE_7__["ValidationComponent"]
             ]
@@ -1435,8 +1545,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 var environment = {
     production: false,
-    apiHost: '/'
-    // apiHost: 'http://localhost:3000/'
+    apiHost: 'http://localhost:3000/'
 };
 /*
  * For easier debugging in development mode, you can import the following file

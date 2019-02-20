@@ -4,8 +4,9 @@ const mongoose = require('mongoose'),
 const StudySchema = new Schema({
   PatientID: { type: String, required: true, trim: true },
   PatientDetails: { type: Object, trim: true },
-  FileDetails: { type: Object, trim: true },
   ReportDetails: { type: Object, trim: true },
+  ExtraReportDetails: { type: Object, trim: true },
+  FileDetails: { type: Object, trim: true },
   Status: { type: String, required: true, trim: true },
   Assign: { type: String, required: true, trim: true }
 });

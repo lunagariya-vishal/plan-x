@@ -1,6 +1,6 @@
 {
     "databaseConfig": {
-        "host": "3.94.26.160",
+        "host": "localhost",
         "database": "studyreport"
     }
 }
