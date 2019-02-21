@@ -1862,7 +1862,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 var environment = {
     production: false,
-    apiHost: 'http://localhost:8080/'
+    apiHost: '/'
 };
 /*
  * For easier debugging in development mode, you can import the following file
