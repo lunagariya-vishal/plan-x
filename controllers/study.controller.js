@@ -11,25 +11,25 @@ exports.index = function (request, response) {
     if (id !== undefined) {
         Study.findById(id, (error, data) => {
             if (error) {
-                response.json({ status: false, message: error, data: data });
+                response.json({ status: false, message: error, data: [] });
             } else {
                 if (data) {
                     response.json({ status: true, message: 'Data is available', data: data });
                 } else {
-                    response.json({ status: false, message: 'Data not available', data: data });
+                    response.json({ status: false, message: 'Data not available', data: [] });
                 }
             }
         });
     } else {
         Study.find({}, (error, data) => {
             if (error) {
-                response.json({ status: false, message: error, data: data });
+                response.json({ status: false, message: error, data: [] });
             } else {
-                if (data.length) {
-                    response.json({ status: true, message: 'Data is available', data: data });
-                } else {
-                    response.json({ status: false, message: 'Data not available', data: data });
-                }
+                // if (data.length) {
+                response.json({ status: true, message: 'Data is available', data: data });
+                // } else {
+                // response.json({ status: false, message: 'Data not available', data: data });
+                // }
             }
         });
     }
@@ -43,11 +43,15 @@ exports.add = function (request, response) {
             var dataSet = dicom.parseDicom(dicomFileAsBuffer);
             var PatientID = dataSet.string('x00100020');
             var SeriesNumber = dataSet.string('x00200011');
-            var BirthDate = dicom.parseDA(dataSet.string('x00100030'), true);
+            var BirthDate = "";
             var DateAcquired = "";
             var StudyDate = "";
             var DateAdded = "";
             var DateOpened = "";
+            if (dataSet.string('x00100030') != undefined) {
+                BirthDate = dicom.parseDA(dataSet.string('x00100030'), true);
+                BirthDate = BirthDate.day + '-' + BirthDate.month + '-' + BirthDate.year
+            }
             if (dataSet.string('x00080022') != undefined) {
                 DateAcquired = dicom.parseDA(dataSet.string('x00080022'), true);
                 DateAcquired = DateAcquired.day + '-' + DateAcquired.month + '-' + DateAcquired.year
@@ -70,13 +74,13 @@ exports.add = function (request, response) {
                 'Assign': 0,
                 'PatientDetails': {
                     'PatientName': { 'key': 'Patient Name', 'value': dataSet.string('x00100010') },
-                    'BirthDate': { 'key': 'Birth Date', 'value': BirthDate.day + '-' + BirthDate.month + '-' + BirthDate.year },
+                    'BirthDate': { 'key': 'Birth Date', 'value': BirthDate },
                     'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
                     'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
                     'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') },
                     'Protocol': { 'key': 'Protocol', 'value': dataSet.string('x00181030') },
                     'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },
-                    'StudyDescription': { 'key': 'Study Description', 'value': dataSet.string('x00081030') },
+                    'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
                     'AccessionNumber': { 'key': 'Accession Number', 'value': dataSet.string('x00080050') },
                     'DateAcquired': { 'key': 'Date Acquired', 'value': DateAcquired },
                     'DateAdded': { 'key': 'Date Added', 'value': DateAdded },
@@ -86,7 +90,6 @@ exports.add = function (request, response) {
                     'Lock': { 'key': 'Lock', 'value': dataSet.string('x00741230') },
                     'PerformingPhysician': { 'key': 'Performing Physician', 'value': dataSet.string('x00081050') },
                     'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
-                    'Status': { 'key': 'Status', 'value': 0 },
                     'Albumbs': { 'key': 'Albumbs', 'value': '' },
                     'Report': { 'key': 'Report', 'value': '' },
                     'ID': { 'key': 'ID', 'value': '' },
@@ -97,17 +100,27 @@ exports.add = function (request, response) {
                 },
                 'ReportDetails': {
                     'PatientName': { 'key': 'Patient Name', 'value': dataSet.string('x00100010') },
-                    'BirthDate': { 'key': 'Birth Date', 'value': BirthDate.day + '-' + BirthDate.month + '-' + BirthDate.year },
+                    'BirthDate': { 'key': 'Birth Date', 'value': BirthDate },
                     'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
                     'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
                     'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') }
+                },
+                'ExtraReportDetails': {
+                    'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
+                    'Date': { 'key': 'Date', 'value': StudyDate },
+                    'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
+                    'ClinicalHistory': { 'key': 'Clinical History', 'value': '' },
+                    'Technique': { 'key': 'Technique', 'value': '' },
+                    'Findings': { 'key': 'Findings', 'value': '' },
+                    'ImpressionConclusion': { 'key': 'Impression/conclusion', 'value': '' },
+                    'TypoDisclaimer': { 'key': 'Typo Disclaimer', 'value': '' }
                 },
                 'FileDetails': {}
             };
             patientDetails.FileDetails[SeriesNumber] = {
                 'Protocol': { 'key': 'Protocol', 'value': dataSet.string('x00181030') },
                 'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },
-                'StudyDescription': { 'key': 'Study Description', 'value': dataSet.string('x00081030') },
+                'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
                 'AccessionNumber': { 'key': 'Accession Number', 'value': dataSet.string('x00080050') },
                 'DateAcquired': { 'key': 'Date Acquired', 'value': DateAcquired },
                 'DateAdded': { 'key': 'Date Added', 'value': DateAdded },
@@ -149,6 +162,7 @@ exports.add = function (request, response) {
                         PatientID: patient.PatientID,
                         PatientDetails: patient.PatientDetails,
                         ReportDetails: patient.ReportDetails,
+                        ExtraReportDetails: patient.ExtraReportDetails,
                         FileDetails: patient.FileDetails,
                         Status: patient.Status,
                         Assign: patient.Assign
@@ -235,7 +249,7 @@ exports.editReport = function (request, response) {
                     'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
                     'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
                     'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') },
-                    'StudyDescription': { 'key': 'Study Description', 'value': dataSet.string('x00081030') },
+                    'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
                     'StudyDate': { 'key': 'Study Date', 'value': dataSet.string('x00080020') },
                     'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
                     'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },

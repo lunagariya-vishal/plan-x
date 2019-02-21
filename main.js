@@ -49,6 +49,6 @@ app.get('/study', study.index);
 app.get('/study/:id', study.index);
 app.post('/study/add', upload.array('photo'), study.add);
 app.post('/study/edit/:id', study.edit);
-app.post('/study/report/:id', study.editReport);
+app.post('/report/edit/:id', study.editReport);
 
 app.get('/*', (request, response) => response.sendFile(path.join(__dirname, 'public/index.html')));
