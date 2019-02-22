@@ -665,7 +665,7 @@ module.exports = ".menu-container {\r\n\tposition: relative;\r\n\ttop: 0px;\r\n}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg bg-red fixed-top\">\r\n  <a class=\"navbar-brand text-white\" routerLink=\"/\">Project Name</a>\r\n  <!-- <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" (click)=\"onLogout()\">Logout</a>\r\n      </li>\r\n    </ul>\r\n  </div> -->\r\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg bg-red fixed-top\">\r\n  <a class=\"navbar-brand text-white\" routerLink=\"/\">Project Name</a>\r\n  <!-- <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" (click)=\"onLogout()\">Logout</a>\r\n      </li>\r\n    </ul>\r\n  </div> -->\r\n</nav>\r\n<ngx-spinner bdColor=\"rgba(255,255,255,0.5)\" size=\"default\" color=\"#c02942\" type=\"ball-pulse\">\r\n  <!-- <p style=\"font-size: 14px; color: white\">Loading...</p> -->\r\n</ngx-spinner>"
 
 /***/ }),
 
@@ -1059,7 +1059,7 @@ module.exports = ".card {\r\n  margin: 15px 0px;\r\n}\r\n\r\n/* table {\r\n  wid
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"wrapper\">\n    <div class=\"row\">\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <h5 class=\"m-0\">Study list</h5>\n      </div>\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <p class=\"text-right m-0\">{{count}} reports found</p>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-4 col-md-4 col-sm-4\">\n        <input type=\"search\" placeholder=\"Search\" class=\"form-control form-control-sm\">\n      </div>\n      <div class=\"col-lg-8 col-md-8 col-sm-8\">\n        <button class=\"btn btn-sm bg-red txt-white float-right\" (click)=\"openAddStudy()\">Add\n          Study</button>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n        <!-- <table mat-table [dataSource]=\"dataSource\" multiTemplateDataRows class=\"mat-elevation-z8\">\n            <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\n              <th mat-header-cell *matHeaderCellDef> {{column}} </th>\n              <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\n            </ng-container>\n\n            <ng-container matColumnDef=\"expandedDetail\">\n              <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n                <div class=\"example-element-detail\"\n                  [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n                  <div class=\"example-element-diagram\">\n                    <div class=\"example-element-position\"> {{element.position}} </div>\n                    <div class=\"example-element-symbol\"> {{element.symbol}} </div>\n                    <div class=\"example-element-name\"> {{element.name}} </div>\n                    <div class=\"example-element-weight\"> {{element.weight}} </div>\n                  </div>\n                  <div class=\"example-element-description\">\n                    {{element.description}}\n                    <span class=\"example-element-description-attribution\"> -- Wikipedia </span>\n                  </div>\n                </div>\n              </td>\n            </ng-container>\n\n            <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n            <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"example-element-row\"\n              [class.example-expanded-row]=\"expandedElement === element\"\n              (click)=\"expandedElement = expandedElement === element ? null : element\">\n            </tr>\n            <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n          </table> -->\n\n        <div class=\"table-responsive\">\n          <table class=\"table table-bordered table-hover table-light\">\n            <thead class=\"thead-dark\">\n              <tr *ngFor=\"let report of columns | keyvalue\">\n                <th>Patient ID</th>\n                <th *ngFor=\"let row of report.value\">{{row.key}}</th>\n                <!-- <th *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.key}}</th> -->\n                <th>Assign</th>\n                <th>Status</th>\n                <th>Action</th>\n              </tr>\n            </thead>\n            <tbody *ngFor=\"let report of reports | keyvalue\">\n              <tr class=\"clickable\" data-toggle=\"collapse\" [attr.data-target]=\"'.row-'+report.key\">\n                <td>{{report.value.PatientID}}</td>\n                <td *ngFor=\"let row of report.value\">{{row.value}}</td>\n                <!-- <td *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.value}}</td> -->\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>Staff</option>\n                      <option>Other Staff</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>True</option>\n                      <option>False</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <a class=\"btn btn-sm bg-grey txt-white mr-1\" routerLink=\"/report/{{report.key}}\">Report</a>\n                  <button class=\"btn btn-sm bg-grey txt-white\" (click)=\"openEditStudy(report.key)\">Edit</button>\n                </td>\n              </tr>\n              <!-- <tr class=\"collapse table-active row-{{report.key}}\" *ngFor=\"let file of report.value.Files | keyvalue\">\n                  <td colspan=\"6\"></td>\n                  <td *ngFor=\"let row of file.value | keyvalue\">{{row.value.value}}</td>\n                  <td colspan=\"2\"></td>\n                </tr> -->\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=\"wrapper\">\n    <div class=\"row\">\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <h5 class=\"m-0\">Study list</h5>\n      </div>\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <p class=\"text-right m-0\">{{count}} reports found</p>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-4 col-md-4 col-sm-4\">\n        <input type=\"search\" placeholder=\"Search\" class=\"form-control form-control-sm\"\n          (input)=\"search($event.target.value)\">\n      </div>\n      <div class=\"col-lg-8 col-md-8 col-sm-8\">\n        <button class=\"btn btn-sm bg-red txt-white float-right\" (click)=\"openAddStudy()\">Add\n          Study</button>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n        <!-- <table mat-table [dataSource]=\"dataSource\" multiTemplateDataRows class=\"mat-elevation-z8\">\n            <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\n              <th mat-header-cell *matHeaderCellDef> {{column}} </th>\n              <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\n            </ng-container>\n\n            <ng-container matColumnDef=\"expandedDetail\">\n              <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n                <div class=\"example-element-detail\"\n                  [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n                  <div class=\"example-element-diagram\">\n                    <div class=\"example-element-position\"> {{element.position}} </div>\n                    <div class=\"example-element-symbol\"> {{element.symbol}} </div>\n                    <div class=\"example-element-name\"> {{element.name}} </div>\n                    <div class=\"example-element-weight\"> {{element.weight}} </div>\n                  </div>\n                  <div class=\"example-element-description\">\n                    {{element.description}}\n                    <span class=\"example-element-description-attribution\"> -- Wikipedia </span>\n                  </div>\n                </div>\n              </td>\n            </ng-container>\n\n            <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n            <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"example-element-row\"\n              [class.example-expanded-row]=\"expandedElement === element\"\n              (click)=\"expandedElement = expandedElement === element ? null : element\">\n            </tr>\n            <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n          </table> -->\n\n        <div class=\"table-responsive\">\n          <table class=\"table table-bordered table-hover table-light\">\n            <thead class=\"thead-dark\">\n              <tr>\n                <th>Patient ID</th>\n                <th *ngFor=\"let column of columns\">{{column}}</th>\n                <!-- <th *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.key}}</th> -->\n                <th>Assign</th>\n                <th>Status</th>\n                <th>Action</th>\n              </tr>\n            </thead>\n            <tbody *ngFor=\"let report of reports | keyvalue\">\n              <tr class=\"clickable\" data-toggle=\"collapse\" [attr.data-target]=\"'.row-'+report.key\">\n                <td>{{report.value.PatientID}}</td>\n                <td *ngFor=\"let row of report.value\">{{row.value}}</td>\n                <!-- <td *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.value}}</td> -->\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>Staff</option>\n                      <option>Other Staff</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>True</option>\n                      <option>False</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <a class=\"btn btn-sm bg-grey txt-white mr-1\" routerLink=\"/report/{{report.key}}\">Report</a>\n                  <button class=\"btn btn-sm bg-grey txt-white\" (click)=\"openEditStudy(report.key)\">Edit</button>\n                </td>\n              </tr>\n              <!-- <tr class=\"collapse table-active row-{{report.key}}\" *ngFor=\"let file of report.value.Files | keyvalue\">\n                  <td colspan=\"6\"></td>\n                  <td *ngFor=\"let row of file.value | keyvalue\">{{row.value.value}}</td>\n                  <td colspan=\"2\"></td>\n                </tr> -->\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1100,7 +1100,7 @@ var StudyComponent = /** @class */ (function () {
         this.reports = [];
         this.columns = [];
         this.count = [];
-        this.columnsToDisplay = ['PatientID', 'Action'];
+        this.columnsToDisplay = [];
     }
     StudyComponent.prototype.ngOnInit = function () {
         this.index();
@@ -1110,10 +1110,20 @@ var StudyComponent = /** @class */ (function () {
         this.commonService.getData('study').subscribe(function (response) {
             _this.count = response.data.length;
             if (response.status) {
-                // this.dataSource = new MatTableDataSource(response.data);
+                // this.columnsToDisplay = Object.keys(response.data[0].PatientDetails).map(key => (key));
+                // response.data.forEach(element => {
+                //   let keys = {};
+                //   var i = 0;
+                //   Object.keys(element.PatientDetails).map(key => {
+                //     keys[i + key] = response.data[0].PatientDetails[key].value;
+                //     i++;
+                //   });
+                //   this.reports.push(keys);
+                // });
+                // this.dataSource = new MatTableDataSource(this.reports);
                 // this.dataSource.sort = this.sort;
                 // this.dataSource.paginator = this.paginator;
-                _this.columns[0] = Object.keys(response.data[0].PatientDetails).map(function (key) { return ({ field: key, key: response.data[0].PatientDetails[key].key, value: response.data[0].PatientDetails[key].value }); });
+                _this.columns = Object.keys(response.data[0].PatientDetails).map(function (key) { return (response.data[0].PatientDetails[key].key); });
                 response.data.forEach(function (element) {
                     _this.reports[element._id] = Object.keys(element.PatientDetails).map(function (key) { return ({ field: key, key: element.PatientDetails[key].key, value: element.PatientDetails[key].value }); });
                     _this.reports[element._id]['PatientID'] = element.PatientID;
@@ -1142,6 +1152,25 @@ var StudyComponent = /** @class */ (function () {
         dialogRef.afterClosed().subscribe(function (result) {
             _this.index();
         });
+    };
+    StudyComponent.prototype.search = function (value) {
+        var _this = this;
+        if (value) {
+            this.commonService.getData('study/search/' + value).subscribe(function (response) {
+                _this.count = response.data.length;
+                if (response.status) {
+                    _this.reports = [];
+                    response.data.forEach(function (element) {
+                        _this.reports[element._id] = Object.keys(element.PatientDetails).map(function (key) { return ({ field: key, key: element.PatientDetails[key].key, value: element.PatientDetails[key].value }); });
+                        _this.reports[element._id]['PatientID'] = element.PatientID;
+                        _this.reports[element._id]['Files'] = Object.keys(element.FileDetails).map(function (key) { return (Object.keys(element.FileDetails[key]).map(function (keys) { return ({ key: element.FileDetails[key][keys].key, value: element.FileDetails[key][keys].value }); })); });
+                    });
+                }
+            }, function (error) { return _this.errorLogService.handleError(error); });
+        }
+        else {
+            this.index();
+        }
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatPaginator"]),
@@ -1364,8 +1393,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _error_log_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./error-log.service */ "./src/app/services/error-log.service.ts");
-/* harmony import */ var _shared_app_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shared/app.constants */ "./src/app/shared/app.constants.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _error_log_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./error-log.service */ "./src/app/services/error-log.service.ts");
+/* harmony import */ var _shared_app_constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/app.constants */ "./src/app/shared/app.constants.ts");
+
 
 
 
@@ -1373,31 +1404,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var CommonService = /** @class */ (function () {
-    function CommonService(http, errorLogService) {
+    function CommonService(http, spinner, errorLogService) {
         this.http = http;
+        this.spinner = spinner;
         this.errorLogService = errorLogService;
     }
     CommonService.prototype.getData = function (method) {
-        return this.http.get(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_5__["createUrl"])(method))
+        return this.http.get(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_6__["createUrl"])(method))
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));
     };
     CommonService.prototype.addData = function (method, data) {
-        return this.http.post(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_5__["createUrl"])(method), data)
+        var _this = this;
+        this.spinner.show();
+        return this.http.post(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_6__["createUrl"])(method), data)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
+            _this.spinner.hide();
             return response;
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));
     };
     CommonService.prototype.updateData = function (method, data) {
-        return this.http.post(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_5__["createUrl"])(method), data)
+        var _this = this;
+        this.spinner.show();
+        return this.http.post(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_6__["createUrl"])(method), data)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
+            _this.spinner.hide();
             return response;
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));
     };
     CommonService.prototype.deleteData = function (method) {
-        return this.http.delete(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_5__["createUrl"])(method))
+        return this.http.delete(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_6__["createUrl"])(method))
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));
     };
     CommonService.prototype.handleError = function (error) {
+        this.spinner.hide();
         this.errorLogService.handleError(error);
     };
     CommonService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1405,7 +1444,8 @@ var CommonService = /** @class */ (function () {
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
-            _error_log_service__WEBPACK_IMPORTED_MODULE_4__["ErrorLogService"]])
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_4__["NgxSpinnerService"],
+            _error_log_service__WEBPACK_IMPORTED_MODULE_5__["ErrorLogService"]])
     ], CommonService);
     return CommonService;
 }());
@@ -1740,7 +1780,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
-/* harmony import */ var _components_validation_validation_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/validation/validation.component */ "./src/app/components/validation/validation.component.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _components_validation_validation_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/validation/validation.component */ "./src/app/components/validation/validation.component.ts");
+
 
 
 
@@ -1763,10 +1805,11 @@ var SharedModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatPaginatorModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSortModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialogModule"],
-                _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_6__["DragDropModule"]
+                _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_6__["DragDropModule"],
+                ngx_spinner__WEBPACK_IMPORTED_MODULE_7__["NgxSpinnerModule"]
             ],
             declarations: [
-                _components_validation_validation_component__WEBPACK_IMPORTED_MODULE_7__["ValidationComponent"]
+                _components_validation_validation_component__WEBPACK_IMPORTED_MODULE_8__["ValidationComponent"]
             ],
             exports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
@@ -1778,7 +1821,8 @@ var SharedModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSortModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialogModule"],
                 _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_6__["DragDropModule"],
-                _components_validation_validation_component__WEBPACK_IMPORTED_MODULE_7__["ValidationComponent"]
+                ngx_spinner__WEBPACK_IMPORTED_MODULE_7__["NgxSpinnerModule"],
+                _components_validation_validation_component__WEBPACK_IMPORTED_MODULE_8__["ValidationComponent"]
             ]
         })
     ], SharedModule);

@@ -242,22 +242,24 @@ exports.editReport = function (request, response) {
         });
     });
 }
+exports.search = function (request, response) {
+    const search = request.params.search;
+    Study.find({ $text: { $search: search } }, (error, data) => {
+        if (error) {
+            response.json({ status: false, message: error, data: [] });
+        } else {
+            if (data) {
+                response.json({ status: true, message: 'Data is available', data: data });
+            } else {
+                response.json({ status: false, message: 'Data not available', data: [] });
+            }
+        }
+    });
+}
 /*
-'PatientDetails': {
-                    'PatientName': { 'key': 'Patient Name', 'value': dataSet.string('x00100010') },
-                    'BirthDate': { 'key': 'Birth Date', 'value': dataSet.string('x00100030') },
-                    'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
-                    'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
-                    'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') },
-                    'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
-                    'StudyDate': { 'key': 'Study Date', 'value': dataSet.string('x00080020') },
-                    'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
-                    'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },
-                    'Protocol': { 'key': 'Protocol', 'value': dataSet.string('x00181030') },
                     'SeriesNumber': { 'key': 'Series Number', 'value': dataSet.string('x00200011') },
                     'StudyID': { 'key': 'Study ID', 'value': dataSet.string('x0020000d') },
                     'SeriesID': { 'key': 'Series ID', 'value': dataSet.string('x0020000e') },
-                }
 */
 
 /*Study.find({ 'PatientID': patient.PatientID }, (error, data) => {

@@ -10,7 +10,8 @@ class Database {
     open(callback) {
         var options = {
             promiseLibrary: global.Promise,
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            useCreateIndex: true
         };
         mongoose.connect(connectionString, options, (err) => {
             if (err) {

@@ -47,6 +47,7 @@ var study = require('./controllers/study.controller');
 
 app.get('/study', study.index);
 app.get('/study/:id', study.index);
+app.get('/study/search/:search', study.search);
 app.post('/study/add', upload.array('photo'), study.add);
 app.post('/study/edit/:id', study.edit);
 app.post('/report/edit/:id', study.editReport);
