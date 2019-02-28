@@ -24,10 +24,6 @@ database.open(() => {
     // console.log('Database is open');
 });
 
-// http.createServer(app).listen(app.get('port'), host, function () {
-//     console.log('Listening on http://' + host + ':' + app.get('port'));
-// });
-
 app.listen(app.get('port'), host, (error) => {
     console.log('Listening on http://' + host + ':' + app.get('port'));
 });
@@ -43,11 +39,23 @@ app.use(function (request, response, next) {
     next();
 });
 
+app.all("/*", function (request, response, next) {
+    response.header('Access-Control-Allow-Origin', '*');
+    response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    response.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    next();
+});
+
+app.use(express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 var study = require('./controllers/study.controller');
 
 app.get('/study', study.index);
 app.get('/study/:id', study.index);
 app.get('/study/search/:search', study.search);
+app.post('/study/addUrl', study.addUrl);
+app.post('/study/addZip', study.addZip);
 app.post('/study/add', upload.array('photo'), study.add);
 app.post('/study/edit/:id', study.edit);
 app.post('/report/edit/:id', study.editReport);

@@ -4,6 +4,8 @@ const Study = require(basePath + '/models/study.model'),
     path = require('path'),
     fs = require('fs'),
     async = require('async'),
+    http = require('http'),
+    unzip = require('unzip'),
     _ = require('underscore');
 
 exports.index = function (request, response) {
@@ -25,11 +27,11 @@ exports.index = function (request, response) {
             if (error) {
                 response.json({ status: false, message: error, data: [] });
             } else {
-                // if (data.length) {
-                response.json({ status: true, message: 'Data is available', data: data });
-                // } else {
-                // response.json({ status: false, message: 'Data not available', data: data });
-                // }
+                if (data.length) {
+                    response.json({ status: true, message: 'Data is available', data: data });
+                } else {
+                    response.json({ status: false, message: 'Data not available', data: data });
+                }
             }
         });
     }
@@ -255,6 +257,397 @@ exports.search = function (request, response) {
             }
         }
     });
+}
+exports.addUrl = function (request, response) {
+    var url = request.body.url;
+    var temp = Date.now();
+    http.get(url, function (res) {
+        var files = fs.createWriteStream(basePath + '/uploads/' + temp + '.dcm');
+        res.pipe(files);
+        res.on('end', function () {
+            var all_details = [];
+            var file = basePath + '/uploads/' + temp + '.dcm';
+            if (path.extname(file) == '.dcm') {
+                var dicomFileAsBuffer = fs.readFileSync(file);
+                var dataSet = dicom.parseDicom(dicomFileAsBuffer);
+                var PatientID = dataSet.string('x00100020');
+                var SeriesNumber = dataSet.string('x00200011');
+                var BirthDate = "";
+                var DateAcquired = "";
+                var StudyDate = "";
+                var DateAdded = "";
+                var DateOpened = "";
+                if (dataSet.string('x00100030') != undefined) {
+                    BirthDate = dicom.parseDA(dataSet.string('x00100030'), true);
+                    BirthDate = BirthDate.day + '-' + BirthDate.month + '-' + BirthDate.year
+                }
+                if (dataSet.string('x00080022') != undefined) {
+                    DateAcquired = dicom.parseDA(dataSet.string('x00080022'), true);
+                    DateAcquired = DateAcquired.day + '-' + DateAcquired.month + '-' + DateAcquired.year
+                }
+                if (dataSet.string('x00080020') != undefined) {
+                    StudyDate = dicom.parseDA(dataSet.string('x00080020'), true);
+                    StudyDate = StudyDate.day + '-' + StudyDate.month + '-' + StudyDate.year
+                }
+                if (dataSet.string('x0040A121') != undefined) {
+                    DateAdded = dicom.parseDA(dataSet.string('x0040A121'), true);
+                    DateAdded = DateAdded.day + '-' + DateAdded.month + '-' + DateAdded.year
+                }
+                if (dataSet.string('x0040A121') != undefined) {
+                    DateOpened = dicom.parseDA(dataSet.string('x0040A121'), true);
+                    DateOpened = DateOpened.day + '-' + DateOpened.month + '-' + DateOpened.year
+                }
+                var patientDetails = {
+                    'PatientID': dataSet.string('x00100020'),
+                    'Status': 0,
+                    'Assign': 0,
+                    'PatientDetails': {
+                        'PatientName': { 'key': 'Patient Name', 'value': dataSet.string('x00100010') },
+                        'BirthDate': { 'key': 'Birth Date', 'value': BirthDate },
+                        'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
+                        'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
+                        'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') },
+                        'Protocol': { 'key': 'Protocol', 'value': dataSet.string('x00181030') },
+                        'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },
+                        'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
+                        'AccessionNumber': { 'key': 'Accession Number', 'value': dataSet.string('x00080050') },
+                        'DateAcquired': { 'key': 'Date Acquired', 'value': DateAcquired },
+                        'DateAdded': { 'key': 'Date Added', 'value': DateAdded },
+                        'StudyDate': { 'key': 'Study Date', 'value': StudyDate },
+                        'DateOpened': { 'key': 'Date Opened', 'value': DateOpened },
+                        'Institution': { 'key': 'Institution', 'value': dataSet.string('x00080080') },
+                        'Lock': { 'key': 'Lock', 'value': dataSet.string('x00741230') },
+                        'PerformingPhysician': { 'key': 'Performing Physician', 'value': dataSet.string('x00081050') },
+                        'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
+                        'Albumbs': { 'key': 'Albumbs', 'value': '' },
+                        'Report': { 'key': 'Report', 'value': '' },
+                        'ID': { 'key': 'ID', 'value': '' },
+                        'Comments': { 'key': 'Comments', 'value': '' },
+                        'Comments2': { 'key': 'Comments 2', 'value': '' },
+                        'Comments3': { 'key': 'Comments 3', 'value': '' },
+                        'Comments4': { 'key': 'Comments 4', 'value': '' }
+                    },
+                    'ReportDetails': {
+                        'PatientName': { 'key': 'Patient Name', 'value': dataSet.string('x00100010') },
+                        'BirthDate': { 'key': 'Birth Date', 'value': BirthDate },
+                        'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
+                        'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
+                        'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') }
+                    },
+                    'ExtraReportDetails': {
+                        'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
+                        'Date': { 'key': 'Date', 'value': StudyDate },
+                        'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
+                        'ClinicalHistory': { 'key': 'Clinical History', 'value': '' },
+                        'Technique': { 'key': 'Technique', 'value': '' },
+                        'Findings': { 'key': 'Findings', 'value': '' },
+                        'ImpressionConclusion': { 'key': 'Impression/conclusion', 'value': '' },
+                        'TypoDisclaimer': { 'key': 'Typo Disclaimer', 'value': '' }
+                    },
+                    'FileDetails': {}
+                };
+                patientDetails.FileDetails[SeriesNumber] = {
+                    'Protocol': { 'key': 'Protocol', 'value': dataSet.string('x00181030') },
+                    'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },
+                    'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
+                    'AccessionNumber': { 'key': 'Accession Number', 'value': dataSet.string('x00080050') },
+                    'DateAcquired': { 'key': 'Date Acquired', 'value': DateAcquired },
+                    'DateAdded': { 'key': 'Date Added', 'value': DateAdded },
+                    'StudyDate': { 'key': 'Study Date', 'value': StudyDate },
+                    'DateOpened': { 'key': 'Date Opened', 'value': DateOpened },
+                    'Institution': { 'key': 'Institution', 'value': dataSet.string('x00080080') },
+                    'Lock': { 'key': 'Lock', 'value': dataSet.string('x00741230') },
+                    'PerformingPhysician': { 'key': 'Performing Physician', 'value': dataSet.string('x00081050') },
+                    'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
+                    'Status': { 'key': 'Status', 'value': 0 },
+                    'Albumbs': { 'key': 'Albumbs', 'value': '' },
+                    'Report': { 'key': 'Report', 'value': '' },
+                    'ID': { 'key': 'ID', 'value': '' },
+                    'Comments': { 'key': 'Comments', 'value': '' },
+                    'Comments2': { 'key': 'Comments 2', 'value': '' },
+                    'Comments3': { 'key': 'Comments 3', 'value': '' },
+                    'Comments4': { 'key': 'Comments 4', 'value': '' }
+                }
+                all_details[SeriesNumber] = patientDetails;
+                if (fs.existsSync(file)) {
+                    fs.unlinkSync(file);
+                }
+            }
+            var cleanArray = all_details.filter(function () {
+                // return el != null;
+                return true;
+            });
+            // var xyz = _.uniq(abc, function (p) { return p.PatientID });
+            async.eachOfSeries(cleanArray, function (patient, key, callback) {
+                Study.findOne({
+                    PatientID: patient.PatientID
+                }, function (error, study) {
+                    if (error) {
+                        response.json({ status: false, message: 'Something is wrong', data: [] });
+                    } else {
+                        if (!study) {
+                            let study = new Study({
+                                PatientID: patient.PatientID,
+                                PatientDetails: patient.PatientDetails,
+                                ReportDetails: patient.ReportDetails,
+                                ExtraReportDetails: patient.ExtraReportDetails,
+                                FileDetails: patient.FileDetails,
+                                Status: patient.Status,
+                                Assign: patient.Assign
+                            });
+                            study.save(function (error, data) {
+                                if (error) {
+                                    response.json({ status: false, message: 'Something is wrong', data: [] });
+                                } else {
+                                    if (data) {
+                                        callback();
+                                        // response.json({ status: false, message: 'Study details inserted successfully', data: data });
+                                    } else {
+                                        response.json({ status: true, message: 'Sorry!!! Study details not inserted', data: data });
+                                    }
+                                }
+                            })
+                        } else {
+                            Study.updateOne({
+                                PatientID: patient.PatientID
+                            }, { FileDetails: Object.assign(study.FileDetails, patient.FileDetails) }, function (error, data) {
+                                if (error) {
+                                    response.json({ status: false, message: 'Something is wrong', data: [] });
+                                } else {
+                                    if (data) {
+                                        callback();
+                                        // response.json({ status: false, message: 'Study details inserted successfully', data: data });
+                                    } else {
+                                        response.json({ status: true, message: 'Sorry!!! Study details not inserted', data: data });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                })
+            });
+            response.json({ status: true, message: 'Study Data inserted successfully', data: [] });
+        });
+    }).on('error', function (error) {
+        res.json({ status: false, message: error.message, data: [] });
+    });
+}
+exports.addZip = function (request, response) {
+    var url = request.body.url;
+    http.get(url, function (res) {
+        var temp = Date.now();
+        var files = fs.createWriteStream(basePath + '/uploads/' + temp + '.zip');
+        res.pipe(files);
+        res.on('end', function () {
+            var zip = basePath + '/uploads/' + temp + '.zip';
+            var target2 = basePath + '/uploads/' + temp;
+            var target = target2 + '/';
+            if (!fs.existsSync(target2)) {
+                fs.mkdirSync(target2);
+            }
+            // extract(zip, { dir: target }, function (err) { });
+            fs.createReadStream(zip).pipe(unzip.Extract({ path: target }))
+                .on('close', function () {
+                    var all_files = getFiles(target, '.dcm');
+                    if (fs.existsSync(zip)) {
+                        fs.unlinkSync(zip);
+                    }
+                    var all_details = [];
+                    all_files.forEach(file => {
+                        if (path.extname(file) == '.dcm') {
+                            var dicomFileAsBuffer = fs.readFileSync(file);
+                            var dataSet = dicom.parseDicom(dicomFileAsBuffer);
+                            var PatientID = dataSet.string('x00100020');
+                            var SeriesNumber = dataSet.string('x00200011');
+                            var BirthDate = "";
+                            var DateAcquired = "";
+                            var StudyDate = "";
+                            var DateAdded = "";
+                            var DateOpened = "";
+                            if (dataSet.string('x00100030') != undefined) {
+                                BirthDate = dicom.parseDA(dataSet.string('x00100030'), true);
+                                BirthDate = BirthDate.day + '-' + BirthDate.month + '-' + BirthDate.year
+                            }
+                            if (dataSet.string('x00080022') != undefined) {
+                                DateAcquired = dicom.parseDA(dataSet.string('x00080022'), true);
+                                DateAcquired = DateAcquired.day + '-' + DateAcquired.month + '-' + DateAcquired.year
+                            }
+                            if (dataSet.string('x00080020') != undefined) {
+                                StudyDate = dicom.parseDA(dataSet.string('x00080020'), true);
+                                StudyDate = StudyDate.day + '-' + StudyDate.month + '-' + StudyDate.year
+                            }
+                            if (dataSet.string('x0040A121') != undefined) {
+                                DateAdded = dicom.parseDA(dataSet.string('x0040A121'), true);
+                                DateAdded = DateAdded.day + '-' + DateAdded.month + '-' + DateAdded.year
+                            }
+                            if (dataSet.string('x0040A121') != undefined) {
+                                DateOpened = dicom.parseDA(dataSet.string('x0040A121'), true);
+                                DateOpened = DateOpened.day + '-' + DateOpened.month + '-' + DateOpened.year
+                            }
+                            var patientDetails = {
+                                'PatientID': dataSet.string('x00100020'),
+                                'Status': 0,
+                                'Assign': 0,
+                                'PatientDetails': {
+                                    'PatientName': { 'key': 'Patient Name', 'value': dataSet.string('x00100010') },
+                                    'BirthDate': { 'key': 'Birth Date', 'value': BirthDate },
+                                    'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
+                                    'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
+                                    'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') },
+                                    'Protocol': { 'key': 'Protocol', 'value': dataSet.string('x00181030') },
+                                    'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },
+                                    'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
+                                    'AccessionNumber': { 'key': 'Accession Number', 'value': dataSet.string('x00080050') },
+                                    'DateAcquired': { 'key': 'Date Acquired', 'value': DateAcquired },
+                                    'DateAdded': { 'key': 'Date Added', 'value': DateAdded },
+                                    'StudyDate': { 'key': 'Study Date', 'value': StudyDate },
+                                    'DateOpened': { 'key': 'Date Opened', 'value': DateOpened },
+                                    'Institution': { 'key': 'Institution', 'value': dataSet.string('x00080080') },
+                                    'Lock': { 'key': 'Lock', 'value': dataSet.string('x00741230') },
+                                    'PerformingPhysician': { 'key': 'Performing Physician', 'value': dataSet.string('x00081050') },
+                                    'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
+                                    'Albumbs': { 'key': 'Albumbs', 'value': '' },
+                                    'Report': { 'key': 'Report', 'value': '' },
+                                    'ID': { 'key': 'ID', 'value': '' },
+                                    'Comments': { 'key': 'Comments', 'value': '' },
+                                    'Comments2': { 'key': 'Comments 2', 'value': '' },
+                                    'Comments3': { 'key': 'Comments 3', 'value': '' },
+                                    'Comments4': { 'key': 'Comments 4', 'value': '' }
+                                },
+                                'ReportDetails': {
+                                    'PatientName': { 'key': 'Patient Name', 'value': dataSet.string('x00100010') },
+                                    'BirthDate': { 'key': 'Birth Date', 'value': BirthDate },
+                                    'Gender': { 'key': 'Gender', 'value': dataSet.string('x00100040') },
+                                    'Age': { 'key': 'Age', 'value': dataSet.string('x00101010') },
+                                    'Address': { 'key': 'Address', 'value': dataSet.string('x00080081') }
+                                },
+                                'ExtraReportDetails': {
+                                    'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
+                                    'Date': { 'key': 'Date', 'value': StudyDate },
+                                    'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
+                                    'ClinicalHistory': { 'key': 'Clinical History', 'value': '' },
+                                    'Technique': { 'key': 'Technique', 'value': '' },
+                                    'Findings': { 'key': 'Findings', 'value': '' },
+                                    'ImpressionConclusion': { 'key': 'Impression/conclusion', 'value': '' },
+                                    'TypoDisclaimer': { 'key': 'Typo Disclaimer', 'value': '' }
+                                },
+                                'FileDetails': {}
+                            };
+                            patientDetails.FileDetails[SeriesNumber] = {
+                                'Protocol': { 'key': 'Protocol', 'value': dataSet.string('x00181030') },
+                                'Modality': { 'key': 'Modality', 'value': dataSet.string('x00080060') },
+                                'Study': { 'key': 'Study', 'value': dataSet.string('x00081030') },
+                                'AccessionNumber': { 'key': 'Accession Number', 'value': dataSet.string('x00080050') },
+                                'DateAcquired': { 'key': 'Date Acquired', 'value': DateAcquired },
+                                'DateAdded': { 'key': 'Date Added', 'value': DateAdded },
+                                'StudyDate': { 'key': 'Study Date', 'value': StudyDate },
+                                'DateOpened': { 'key': 'Date Opened', 'value': DateOpened },
+                                'Institution': { 'key': 'Institution', 'value': dataSet.string('x00080080') },
+                                'Lock': { 'key': 'Lock', 'value': dataSet.string('x00741230') },
+                                'PerformingPhysician': { 'key': 'Performing Physician', 'value': dataSet.string('x00081050') },
+                                'ReferringPhysician': { 'key': 'Referring Physician', 'value': dataSet.string('x00080090') },
+                                'Status': { 'key': 'Status', 'value': 0 },
+                                'Albumbs': { 'key': 'Albumbs', 'value': '' },
+                                'Report': { 'key': 'Report', 'value': '' },
+                                'ID': { 'key': 'ID', 'value': '' },
+                                'Comments': { 'key': 'Comments', 'value': '' },
+                                'Comments2': { 'key': 'Comments 2', 'value': '' },
+                                'Comments3': { 'key': 'Comments 3', 'value': '' },
+                                'Comments4': { 'key': 'Comments 4', 'value': '' }
+                            }
+                            all_details[SeriesNumber] = patientDetails;
+                            // if (fs.existsSync(file)) {
+                            //     fs.rmdirSync(file);
+                            // }
+                        }
+                    });
+                    deleteFiles(target);
+                    var cleanArray = all_details.filter(function () {
+                        return true;
+                    });
+                    async.eachOfSeries(cleanArray, function (patient, key, callback) {
+                        Study.findOne({
+                            PatientID: patient.PatientID
+                        }, function (error, study) {
+                            if (error) {
+                                response.json({ status: false, message: 'Something is wrong', data: [] });
+                            } else {
+                                if (!study) {
+                                    let study = new Study({
+                                        PatientID: patient.PatientID,
+                                        PatientDetails: patient.PatientDetails,
+                                        ReportDetails: patient.ReportDetails,
+                                        ExtraReportDetails: patient.ExtraReportDetails,
+                                        FileDetails: patient.FileDetails,
+                                        Status: patient.Status,
+                                        Assign: patient.Assign
+                                    });
+                                    study.save(function (error, data) {
+                                        if (error) {
+                                            response.json({ status: false, message: 'Something is wrong', data: [] });
+                                        } else {
+                                            if (data) {
+                                                callback();
+                                                // response.json({ status: false, message: 'Study details inserted successfully', data: data });
+                                            } else {
+                                                response.json({ status: true, message: 'Sorry!!! Study details not inserted', data: data });
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    Study.updateOne({
+                                        PatientID: patient.PatientID
+                                    }, { FileDetails: Object.assign(study.FileDetails, patient.FileDetails) }, function (error, data) {
+                                        if (error) {
+                                            response.json({ status: false, message: 'Something is wrong', data: [] });
+                                        } else {
+                                            if (data) {
+                                                callback();
+                                                // response.json({ status: false, message: 'Study details inserted successfully', data: data });
+                                            } else {
+                                                response.json({ status: true, message: 'Sorry!!! Study details not inserted', data: data });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                    });
+                });
+        });
+        response.json({ status: true, message: 'Study Data inserted successfully', data: [] });
+    }).on('error', function (error) {
+        res.json({ status: false, message: error.message, data: [] });
+    });
+}
+function getFiles(directory_path, filter, all_files) {
+    if (!fs.existsSync(directory_path)) {
+        return;
+    }
+    all_files = all_files || [];
+    fs.readdirSync(directory_path).forEach(function (file, index) {
+        var filename = path.join(directory_path, file);
+        if (fs.lstatSync(filename).isDirectory()) {
+            getFiles(filename, filter, all_files);
+        } else if (filename.indexOf(filter) >= 0) {
+            all_files.push(filename);
+        };
+    });
+    return all_files;
+}
+function deleteFiles(directory_path) {
+    if (!fs.existsSync(directory_path)) {
+        return;
+    }
+    fs.readdirSync(directory_path).forEach(function (file, index) {
+        var currentPath = path.join(directory_path, file);
+        if (fs.lstatSync(currentPath).isDirectory()) {
+            deleteFiles(currentPath);
+        } else {
+            fs.unlinkSync(currentPath);
+        }
+    });
+    fs.rmdirSync(directory_path);
 }
 /*
                     'SeriesNumber': { 'key': 'Series Number', 'value': dataSet.string('x00200011') },

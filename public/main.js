@@ -1026,7 +1026,7 @@ var ReportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dialog-content\">\n  <header class=\"dialog-header\">\n    <h5>Add {{title}}</h5>\n  </header>\n  <main class=\"dialog-body\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n        <div class=\"form-group\">\n          <label>Upload folder</label>\n          <!-- <div class=\"custom-file\">\n      <input type=\"file\" class=\"custom-file-input\" id=\"customFileLang\" lang=\"es\">\n      <label class=\"custom-file-label\" for=\"customFileLang\">Seleccionar Archivo</label>\n    </div> -->\n          <input class=\"form-control-file\" type=\"file\" #folderInput (change)=\"onSubmit(folderInput.files)\"\n            webkitDirectory>\n        </div>\n        <div class=\"form-group\">\n          <label>Upload file</label>\n          <input class=\"form-control-file\" type=\"file\" name=\"photo\" (change)=\"onSubmit($event.target.files)\" multiple />\n        </div>\n      </div>\n    </div>\n  </main>\n  <footer class=\"dialog-footer\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n        <div class=\"text-right\">\n          <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\" (click)=\"close()\">Close</button>\n        </div>\n      </div>\n    </div>\n  </footer>\n</div>"
+module.exports = "<div class=\"dialog-content\">\n  <header class=\"dialog-header\">\n    <h5>Add {{title}}</h5>\n  </header>\n  <main class=\"dialog-body\">\n    <div class=\"row no-gutters\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n\n        <div class=\"input-group mb-3\">\n          <input class=\"form-control form-control-sm\" type=\"text\" id=\"zip\" placeholder=\"Enter Zip URL\">\n          <div class=\"input-group-append\">\n            <button type=\"button\" class=\"btn btn-sm bg-red txt-white\" (click)=\"uploadZip()\">Upload</button>\n          </div>\n        </div>\n\n        <div class=\"input-group mb-3\">\n          <input class=\"form-control form-control-sm\" type=\"text\" id=\"url\" placeholder=\"Enter URL\">\n          <div class=\"input-group-append\">\n            <button type=\"button\" class=\"btn btn-sm bg-red txt-white\" (click)=\"uploadURL()\">Upload</button>\n          </div>\n        </div>\n\n        <div class=\"form-group\">\n          <label>Upload folder</label>\n          <!-- <div class=\"custom-file\">\n      <input type=\"file\" class=\"custom-file-input\" id=\"customFileLang\" lang=\"es\">\n      <label class=\"custom-file-label\" for=\"customFileLang\">Seleccionar Archivo</label>\n    </div> -->\n          <input class=\"form-control-file\" type=\"file\" #folderInput (change)=\"onSubmit(folderInput.files)\"\n            webkitDirectory>\n        </div>\n        <div class=\"form-group\">\n          <label>Upload file</label>\n          <input class=\"form-control-file\" type=\"file\" name=\"photo\" (change)=\"onSubmit($event.target.files)\" multiple />\n        </div>\n      </div>\n    </div>\n  </main>\n  <footer class=\"dialog-footer\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n        <div class=\"text-right\">\n          <button type=\"button\" class=\"btn btn-sm bg-grey txt-white\" (click)=\"close()\">Close</button>\n        </div>\n      </div>\n    </div>\n  </footer>\n</div>"
 
 /***/ }),
 
@@ -1059,7 +1059,7 @@ module.exports = ".card {\r\n  margin: 15px 0px;\r\n}\r\n\r\n/* table {\r\n  wid
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"wrapper\">\n    <div class=\"row\">\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <h5 class=\"m-0\">Study list</h5>\n      </div>\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <p class=\"text-right m-0\">{{count}} reports found</p>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-4 col-md-4 col-sm-4\">\n        <input type=\"search\" placeholder=\"Search\" class=\"form-control form-control-sm\"\n          (input)=\"search($event.target.value)\">\n      </div>\n      <div class=\"col-lg-8 col-md-8 col-sm-8\">\n        <button class=\"btn btn-sm bg-red txt-white float-right\" (click)=\"openAddStudy()\">Add\n          Study</button>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n        <!-- <table mat-table [dataSource]=\"dataSource\" multiTemplateDataRows class=\"mat-elevation-z8\">\n            <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\n              <th mat-header-cell *matHeaderCellDef> {{column}} </th>\n              <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\n            </ng-container>\n\n            <ng-container matColumnDef=\"expandedDetail\">\n              <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n                <div class=\"example-element-detail\"\n                  [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n                  <div class=\"example-element-diagram\">\n                    <div class=\"example-element-position\"> {{element.position}} </div>\n                    <div class=\"example-element-symbol\"> {{element.symbol}} </div>\n                    <div class=\"example-element-name\"> {{element.name}} </div>\n                    <div class=\"example-element-weight\"> {{element.weight}} </div>\n                  </div>\n                  <div class=\"example-element-description\">\n                    {{element.description}}\n                    <span class=\"example-element-description-attribution\"> -- Wikipedia </span>\n                  </div>\n                </div>\n              </td>\n            </ng-container>\n\n            <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n            <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"example-element-row\"\n              [class.example-expanded-row]=\"expandedElement === element\"\n              (click)=\"expandedElement = expandedElement === element ? null : element\">\n            </tr>\n            <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n          </table> -->\n\n        <div class=\"table-responsive\">\n          <table class=\"table table-bordered table-hover table-light\">\n            <thead class=\"thead-dark\">\n              <tr>\n                <th>Patient ID</th>\n                <th *ngFor=\"let column of columns\">{{column}}</th>\n                <!-- <th *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.key}}</th> -->\n                <th>Assign</th>\n                <th>Status</th>\n                <th>Action</th>\n              </tr>\n            </thead>\n            <tbody *ngFor=\"let report of reports | keyvalue\">\n              <tr class=\"clickable\" data-toggle=\"collapse\" [attr.data-target]=\"'.row-'+report.key\">\n                <td>{{report.value.PatientID}}</td>\n                <td *ngFor=\"let row of report.value\">{{row.value}}</td>\n                <!-- <td *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.value}}</td> -->\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>Staff</option>\n                      <option>Other Staff</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>True</option>\n                      <option>False</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <a class=\"btn btn-sm bg-grey txt-white mr-1\" routerLink=\"/report/{{report.key}}\">Report</a>\n                  <button class=\"btn btn-sm bg-grey txt-white\" (click)=\"openEditStudy(report.key)\">Edit</button>\n                </td>\n              </tr>\n              <!-- <tr class=\"collapse table-active row-{{report.key}}\" *ngFor=\"let file of report.value.Files | keyvalue\">\n                  <td colspan=\"6\"></td>\n                  <td *ngFor=\"let row of file.value | keyvalue\">{{row.value.value}}</td>\n                  <td colspan=\"2\"></td>\n                </tr> -->\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=\"wrapper\">\n    <div class=\"row\">\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <!-- <h1 class=\"m-0\">Welcome to planx!</h1> -->\n        <h5 class=\"m-0\">Study list</h5>\n      </div>\n      <div class=\"col-lg-6 col-md-6 col-sm-6\">\n        <p class=\"text-right m-0\">{{count}} reports found</p>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-4 col-md-4 col-sm-4\">\n        <input type=\"search\" placeholder=\"Search\" class=\"form-control form-control-sm\"\n          (keyup)=\"search($event.target.value)\">\n      </div>\n      <div class=\"col-lg-8 col-md-8 col-sm-8\">\n        <button class=\"btn btn-sm bg-red txt-white float-right\" (click)=\"openAddStudy()\">Add\n          Study</button>\n      </div>\n    </div>\n    <hr />\n    <div class=\"row\">\n      <div class=\"col-lg-12 col-md-12 col-sm-12\">\n        <!-- <table mat-table [dataSource]=\"dataSource\" multiTemplateDataRows class=\"mat-elevation-z8\">\n          <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\n            <th mat-header-cell *matHeaderCellDef style=\"white-space: pre;\"> {{column}} </th>\n            <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\n          </ng-container>\n\n          <ng-container matColumnDef=\"expandedDetail\">\n            <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\n              <div class=\"example-element-detail\"\n                [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">\n                <div class=\"example-element-diagram\">\n                  <div class=\"example-element-position\"> {{element.position}} </div>\n                  <div class=\"example-element-symbol\"> {{element.symbol}} </div>\n                  <div class=\"example-element-name\"> {{element.name}} </div>\n                  <div class=\"example-element-weight\"> {{element.weight}} </div>\n                </div>\n                <div class=\"example-element-description\">\n                  {{element.description}}\n                  <span class=\"example-element-description-attribution\"> -- Wikipedia </span>\n                </div>\n              </div>\n            </td>\n          </ng-container>\n\n          <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\n          <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\" class=\"example-element-row\"\n            [class.example-expanded-row]=\"expandedElement === element\"\n            (click)=\"expandedElement = expandedElement === element ? null : element\">\n          </tr>\n          <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\n        </table> -->\n\n        <div class=\"table-responsive\" *ngIf=\"columns.length\">\n          <table class=\"table table-bordered table-hover table-light\">\n            <thead class=\"thead-dark\">\n              <tr>\n                <th>Patient ID</th>\n                <th *ngFor=\"let column of columns\">{{column}}</th>\n                <!-- <th *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.key}}</th> -->\n                <th>Assign</th>\n                <th>Status</th>\n                <th>Action</th>\n              </tr>\n            </thead>\n            <tbody *ngFor=\"let report of reports | keyvalue\">\n              <tr class=\"clickable\" data-toggle=\"collapse\" [attr.data-target]=\"'.row-'+report.key\">\n                <td>{{report.value.PatientID}}</td>\n                <td *ngFor=\"let row of report.value\">{{row.value}}</td>\n                <!-- <td *ngFor=\"let row of report.value.Files[0] | keyvalue\">{{row.value.value}}</td> -->\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>Staff</option>\n                      <option>Other Staff</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <div class=\"form-group\">\n                    <select class=\"form-control form-control-sm\" style=\"width:100px;\">\n                      <option>True</option>\n                      <option>False</option>\n                    </select>\n                  </div>\n                </td>\n                <td>\n                  <a class=\"btn btn-sm bg-grey txt-white mr-1\" routerLink=\"/report/{{report.key}}\">Report</a>\n                  <button class=\"btn btn-sm bg-grey txt-white\" (click)=\"openEditStudy(report.key)\">Edit</button>\n                </td>\n              </tr>\n              <!-- <tr class=\"collapse table-active row-{{report.key}}\" *ngFor=\"let file of report.value.Files | keyvalue\">\n                  <td colspan=\"6\"></td>\n                  <td *ngFor=\"let row of file.value | keyvalue\">{{row.value.value}}</td>\n                  <td colspan=\"2\"></td>\n                </tr> -->\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1110,16 +1110,15 @@ var StudyComponent = /** @class */ (function () {
         this.commonService.getData('study').subscribe(function (response) {
             _this.count = response.data.length;
             if (response.status) {
-                // this.columnsToDisplay = Object.keys(response.data[0].PatientDetails).map(key => (key));
+                //this.columnsToDisplay = Object.keys(response.data[0].PatientDetails).map(key => (response.data[0].PatientDetails[key].key));
                 // response.data.forEach(element => {
                 //   let keys = {};
-                //   var i = 0;
                 //   Object.keys(element.PatientDetails).map(key => {
-                //     keys[i + key] = response.data[0].PatientDetails[key].value;
-                //     i++;
+                //     keys[(element.PatientDetails[key].key)] = element.PatientDetails[key].value;
                 //   });
                 //   this.reports.push(keys);
                 // });
+                // console.log(this.reports);
                 // this.dataSource = new MatTableDataSource(this.reports);
                 // this.dataSource.sort = this.sort;
                 // this.dataSource.paginator = this.paginator;
@@ -1229,6 +1228,36 @@ var AddStudyComponent = /** @class */ (function () {
                 _this.errorLogService.handleError(response.message);
             }
         }, function (error) { return _this.errorLogService.handleError(error); });
+    };
+    AddStudyComponent.prototype.uploadURL = function () {
+        var _this = this;
+        var url = document.getElementById('url').value;
+        if (url) {
+            this.commonService.addData('study/addUrl', { 'url': url }).subscribe(function (response) {
+                if (response.status) {
+                    _this.errorLogService.handleSuccess(response.message);
+                    _this.close();
+                }
+                else {
+                    _this.errorLogService.handleError(response.message);
+                }
+            }, function (error) { return _this.errorLogService.handleError(error); });
+        }
+    };
+    AddStudyComponent.prototype.uploadZip = function () {
+        var _this = this;
+        var url = document.getElementById('zip').value;
+        if (url) {
+            this.commonService.addData('study/addZip', { 'url': url }).subscribe(function (response) {
+                if (response.status) {
+                    _this.errorLogService.handleSuccess(response.message);
+                    _this.close();
+                }
+                else {
+                    _this.errorLogService.handleError(response.message);
+                }
+            }, function (error) { return _this.errorLogService.handleError(error); });
+        }
     };
     AddStudyComponent.prototype.close = function () {
         this.dialogRef.close();
@@ -1410,8 +1439,16 @@ var CommonService = /** @class */ (function () {
         this.errorLogService = errorLogService;
     }
     CommonService.prototype.getData = function (method) {
+        var _this = this;
+        this.spinner.show();
         return this.http.get(Object(_shared_app_constants__WEBPACK_IMPORTED_MODULE_6__["createUrl"])(method))
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
+            _this.spinner.hide();
+            return response;
+        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError.bind(this)));
+        // .pipe(
+        //     catchError(this.handleError.bind(this))
+        // );
     };
     CommonService.prototype.addData = function (method, data) {
         var _this = this;
@@ -1906,7 +1943,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 var environment = {
     production: false,
-    apiHost: '/'
+    apiHost: 'http://localhost:8080/'
 };
 /*
  * For easier debugging in development mode, you can import the following file
